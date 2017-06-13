@@ -13,7 +13,22 @@
                 </div>
             </td>
             <td>
-                <div id="divUserList" class="user-list"></div>
+                <img id="imgToggleUsers" src="~/images/icons8-User Groups Filled-100.png" onclick="Lettuce.Default.ToggleUsersMenu()" title="User List" />
+                <div id="divUserListFrame" class="user-list-frame">
+                    <div class="close-button-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" onclick="Lettuce.Default.ToggleUsersMenu()">
+                            <line x1="0" y1="0" x2="15" y2="15" stroke="black" stroke-width="2" stroke-linecap="round"></line>
+                            <line x1="0" y1="15" x2="15" y2="0" stroke="black" stroke-width="2" stroke-linecap="round"></line>
+                        </svg>
+                    </div>
+                    <div class="user-list-content">
+                        Connected Users
+                        <hr />
+                        <div id="divUserList" class="user-list">
+
+                        </div>
+                    </div>
+                </div>
             </td>
         </tr>
         <tr>
@@ -23,14 +38,13 @@
         </tr>
         <tr>
             <td>
-                <textarea id="textInput" placeholder="Type your message here." disabled onkeydown='Lettuce.Default.InputKeyDown(event)'></textarea>
+                <textarea id="textInput" placeholder="Type your message here." onkeydown='Lettuce.Default.InputKeyDown(event)'></textarea>
             </td>
             <td>
                 <div>
-                    <input id="inputFileUpload" type="file" hidden onchange='Lettuce.Default.TransferFile(this.files);' />
-                    <img id="imgUpload" src="~/images/icons8-Upload-80.png" onclick='document.getElementById("inputFileUpload").click()' title="Upload File" />
-                    <br />
                     <button id="buttonSend" onclick="Lettuce.Default.SubmitMessage(event)">Send</button>
+                    <img id="imgUpload" src="~/images/icons8-Upload-80.png" onclick='document.getElementById("inputFileUpload").click()' title="Upload File" />
+                    <input id="inputFileUpload" type="file" hidden multiple onchange='Lettuce.Default.TransferFile(this.files);' />
                 </div>
             </td>
         </tr>

@@ -1,6 +1,11 @@
 ﻿namespace Lettuce.Default {
     export function ToggleMainMenu(e) {
-        
+        document.getElementById("divMainMenu").classList.toggle("menu-open");
+        document.getElementById("divMainMenuBackground").classList.toggle("menu-open");
+    }
+    export function ToggleUsersMenu() {
+        document.getElementById("divUserListFrame").classList.toggle("menu-open");
+        document.getElementById("divMainMenuBackground").classList.toggle("menu-open");
     }
     export function DragOverChat(e) {
         e.preventDefault();
@@ -20,7 +25,7 @@
 
     export function TransferFile(e) {
         for (var i = 0; i < e.length; i++) {
-            dgi("divStatus").innerHTML = "Uploading file...";
+            document.getElementById("divStatus").innerHTML = "Uploading file...";
             var file = e[i];
             var strPath = "/FileTransfer/Upload/";
             var fd = new FormData();
@@ -29,15 +34,24 @@
             xhr.open('POST', strPath, true);
             xhr.onload = function () {
                 if (xhr.status === 200) {
-                    dgi("divStatus").innerHTML = "Upload completed.";
+                    document.getElementById("divStatus").innerHTML = "Upload completed.";
                     var fileName = xhr.responseText;
+                    var inputElem = (document.getElementById("textInput") as HTMLTextAreaElement);
                     var url = location.origin + "/FileTransfer/Download/?file=" + fileName;
-                    (dgi("textInput") as HTMLTextAreaElement).value = 'File Sharing Link: <a target="_blank" href="' + url + '">' + fileName + '</a>';
+                    inputElem.value = "";
+                    if (fileName.toLowerCase().endsWith(".jpg") || fileName.toLowerCase().endsWith(".png") || fileName.toLowerCase().endsWith(".gif")) {
+                        inputElem.value = '<div style="text-align:center"><img src="' + url + '" style="max-width:50vw" /></div><br/>'
+                    }
+                    else if (fileName.toLowerCase().endsWith(".mp4") || fileName.toLowerCase().endsWith(".webm"))
+                    {
+                        inputElem.value = '<div style="text-align:center"><video controls="controls" src="' + url + '" style="max-width:50vw" /></div><br/>'
+                    }
+                    inputElem.value += 'File Sharing Link: <a target="_blank" href="' + url + '">' + fileName + '</a>';
                     SubmitMessage();
                 }
                 else {
                     
-                    dgi("divStatus").innerHTML = "Upload failed.";
+                    document.getElementById("divStatus").innerHTML = "Upload failed.";
                     Lettuce.Utilities.ShowDialog("Upload Failed", "File upload failed.");
                 }
             };
@@ -51,11 +65,11 @@
         }
         var message = inputElem.value.replace("\n", "<br/>");
         inputElem.value = "";
-        var divMessage = document.createElement("div");
-        divMessage.classList.add("sent-chat");
-        divMessage.innerHTML = '<div class="arrow-right"></div><div class="chat-message-header">You at ' + new Date().toLocaleTimeString() + "</div>" + message;
+        var sentChat = document.createElement("div");
+        sentChat.classList.add("sent-chat");
+        sentChat.innerHTML = '<div class="arrow-right"></div><div class="chat-message-header">You at ' + new Date().toLocaleTimeString() + "</div>" + message;
         var messageDiv = document.getElementById("divMessages");
-        messageDiv.appendChild(divMessage);
+        messageDiv.appendChild(sentChat);
         messageDiv.scrollTop = messageDiv.scrollHeight;
         var encoded = btoa(message);
         var request = {
@@ -67,7 +81,7 @@
     export function InputKeyDown(e) {
         if (e.key.toLowerCase() == "enter" && e.shiftKey == false) {
             e.preventDefault();
-            dgi("buttonSend").click();
+            document.getElementById("buttonSend").click();
         }
         ;
         var request = {

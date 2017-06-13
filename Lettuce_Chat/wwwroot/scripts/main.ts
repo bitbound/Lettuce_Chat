@@ -1,7 +1,4 @@
-﻿const dgi = document.getElementById;
-const dgc = document.getElementsByClassName;
-const dgt = document.getElementsByTagName;
-namespace Lettuce {
+﻿namespace Lettuce {
     export var Socket: WebSocket;
     export function Init() {
         if (Socket != undefined && Socket.readyState != WebSocket.CLOSED) {

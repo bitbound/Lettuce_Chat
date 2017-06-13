@@ -15,6 +15,7 @@
     <Content Include="wwwroot\favicon.ico" />
     <Content Include="wwwroot\images\icons8-Lettuce-96.png" />
     <Content Include="wwwroot\images\icons8-Upload-80.png" />
+    <Content Include="wwwroot\images\icons8-User Groups Filled-100.png" />
     <Content Include="wwwroot\scripts\default.ts" />
     <Content Include="wwwroot\scripts\main.js" />
     <Content Include="wwwroot\scripts\main.js.map" />

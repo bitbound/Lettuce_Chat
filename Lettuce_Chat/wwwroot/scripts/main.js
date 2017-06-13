@@ -1,6 +1,3 @@
-var dgi = document.getElementById;
-var dgc = document.getElementsByClassName;
-var dgt = document.getElementsByTagName;
 var Lettuce;
 (function (Lettuce) {
     function Init() {
