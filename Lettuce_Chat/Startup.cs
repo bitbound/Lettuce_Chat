@@ -44,17 +44,29 @@ namespace Lettuce_Chat
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Default/Error");
+                app.Use((context, next) => {
+                    if (!context.Request.IsHttps && context.Request.Host.Value != "localhost:23235")
+                    {
+                        context.Response.Redirect($"https://{context.Request.Host}/");
+                    }
+                    return next();
+                });
             }
-
             app.UseStaticFiles();
-
+            var webSocketOptions = new WebSocketOptions()
+            {
+                ReceiveBufferSize = 10 * 1024
+            };
+            app.UseWebSockets(webSocketOptions);
+            new Socket_Handler(env).AddHandler(app, "/Socket");
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Default}/{action=Default}");
             });
+            
         }
     }
 }

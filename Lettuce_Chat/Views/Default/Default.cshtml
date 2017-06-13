@@ -1,0 +1,38 @@
+﻿@{
+
+}
+<div>
+
+</div>
+<div id="divChatFrame" hidden class="chat-frame" ondragover="Lettuce.Default.DragOverChat(event)" ondrop="Lettuce.Default.DropOnChat(event)">
+    <table>
+        <tr>
+            <td>
+                <div id="divMessages" class="chat-messages">
+
+                </div>
+            </td>
+            <td>
+                <div id="divUserList" class="user-list"></div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div id="divStatus" class="chat-status"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <textarea id="textInput" placeholder="Type your message here." disabled onkeydown='Lettuce.Default.InputKeyDown(event)'></textarea>
+            </td>
+            <td>
+                <div>
+                    <input id="inputFileUpload" type="file" hidden onchange='Lettuce.Default.TransferFile(this.files);' />
+                    <img id="imgUpload" src="~/images/icons8-Upload-80.png" onclick='document.getElementById("inputFileUpload").click()' title="Upload File" />
+                    <br />
+                    <button id="buttonSend" onclick="Lettuce.Default.SubmitMessage(event)">Send</button>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
