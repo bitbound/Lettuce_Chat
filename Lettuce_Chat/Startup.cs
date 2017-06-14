@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Lettuce_Chat.Classes;
 
 namespace Lettuce_Chat
 {
@@ -53,6 +54,7 @@ namespace Lettuce_Chat
                     return next();
                 });
             }
+            Utilities.RootPath = env.ContentRootPath;
             app.UseStaticFiles();
             var webSocketOptions = new WebSocketOptions()
             {

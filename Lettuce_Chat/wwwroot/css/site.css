@@ -17,7 +17,15 @@ button:hover {
     background-color: lightgreen;
     border: 1px solid dimgray;
 }
-
+input {
+    border-radius: 5px;
+    padding-left: 10px;
+    border: 2px solid lightgreen;
+    width: 200px;
+}
+input:hover {
+    border: 2px solid limegreen;
+}
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
@@ -57,6 +65,7 @@ button:hover {
     top: 10px;
     left: 0;
     width: 0;
+    opacity: 0;
     min-height: 95vh;
     overflow-x: hidden;
     overflow-y: auto;
@@ -70,6 +79,7 @@ button:hover {
     border-top: 2px solid dimgray;
     border-right: 2px solid dimgray;
     border-bottom: 2px solid dimgray;
+    opacity: 1;
     z-index: 3;
     transition: ease .5s;
 }
@@ -114,7 +124,103 @@ button:hover {
     opacity: 1;
     transition: opacity ease .5s;
 }
-/*** Login ***/
+.main-menu-content {
+    padding-left: 20px;
+    padding-right: 10px;
+}
+.main-menu-content label {
+    font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+}
+
+.main-menu-content .content-title {
+    padding: 5px 20px;
+    margin-bottom: 5px;
+    display: inline-block;
+    border-radius: 10px;
+    background-color: lightgreen;
+}
+
+.main-menu-content .chat-label {
+    margin-bottom: 5px;
+    margin-top: 5px;
+    border-radius: 5px;
+    padding: 5px 20px;
+    cursor: pointer;
+    background-color: whitesmoke;
+    border: 1px solid gray;
+    display: inline-block;
+}
+.main-menu-content .chat-label:hover {
+    background-color: lightgreen;
+    border: 1px solid limegreen;
+}
+.main-menu-content .chat-label.selected {
+    background-color: lightblue;
+}
+.new-chat-div {
+    text-align: right;
+}
+.new-chat-div button {
+    height: 40px;
+    width: 40px;
+    border-radius: 100%;
+    font-size: 25px;
+    font-weight: bold;
+    float: right;
+}
+/*** Welcome/Login ***/
+#divLogin {
+    text-align: center;
+}
+
+.welcome-logo-container {
+    margin-top: 50px;
+    text-align: left;
+    display: inline-block;
+    height: 96px;
+}
+.welcome-logo-container div {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+.login-box {
+    margin-top: 40px;
+    display: inline-block;
+}
+.login-box div {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: inline-block;
+    width: 200px;
+    vertical-align: top;
+}
+.login-box .button-caption {
+    margin: 5px;
+    font-size: .8em;
+    color: dimgray;
+}
+.login-box button {
+    font-weight: bold;
+    width: 80px;
+    height: 40px;
+}
+.login-box hr {
+    width: 90%;
+    height: 2px;
+    background: gray;
+    border: none;
+    border-radius: 100%;
+}
+#divLoginForm {
+    background-color: white;
+    width: 300px;
+}
+.login-box hr {
+    display: none;
+}
+
 /*** Chat Area ***/
 .chat-frame {
     margin-top: 10px;
@@ -245,8 +351,61 @@ button:hover {
     pointer-events: none;
 }
 
-@media only screen and (max-device-width : 550px) {
 
+/*** Dialog Box ***/
+.dialog-frame {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid dimgray;
+    border-radius: 10px;
+    box-shadow: 10px 10px 10px rgba(0,0,0,0.4)
+}
+.dialog-title-frame {
+    height: 40px;
+    background-color: lightgreen;
+    border-bottom: 1px solid gray;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+.dialog-title-content {
+    line-height: 40px;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;
+    pointer-events: none;
+}
+.dialog-content {
+    padding: 10px;
+}
+.dialog-button-frame {
+    text-align: right;
+    padding: 10px;
+}
+.dialog-button-frame button {
+    padding: 5px 10px;
+}
+
+/*** Tooltip */
+.tooltip-frame {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 10px 10px 10px rgba(0,0,0,0.4);
+    border: 1px solid dimgray;
+    background-color: lightgreen;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+
+@media only screen and (max-width : 550px) {
+    .login-box hr {
+        display: inline-block;
+    }
     .chat-frame table tr td:last-child {
         width: 40px;
         text-align: center;
@@ -260,6 +419,7 @@ button:hover {
         right: 10px;
         height: 0;
         width: 0;
+        opacity: 0;
         border: none;
         transition: ease .5s;
     }
@@ -267,6 +427,7 @@ button:hover {
         height: 80vh;
         width: 300px;
         border: 1px solid dimgray;
+        opacity: 1;
         transition: ease .5s;
         z-index: 3;
     }

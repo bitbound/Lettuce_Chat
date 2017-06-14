@@ -1,52 +1,157 @@
-﻿@{
-
-}
-<div>
-
+﻿<div class="banner-top">
+    <div class="banner-content">
+        <img class="banner-image" src="~/images/icons8-Lettuce-96.png" />
+        <span class="banner-text">Chat</span>
+    </div>
 </div>
-<div id="divChatFrame" hidden class="chat-frame" ondragover="Lettuce.Default.DragOverChat(event)" ondrop="Lettuce.Default.DropOnChat(event)">
-    <table>
-        <tr>
-            <td>
-                <div id="divMessages" class="chat-messages">
 
+<svg class="main-menu-button" xmlns="http://www.w3.org/2000/svg" onclick="Lettuce.Default.ToggleMainMenu()">
+    <line id="menuLine1" x1="5" y1="7" x2="20" y2="7" stroke="white" stroke-width="2" stroke-linecap="round"></line>
+    <line id="menuLine2" x1="5" y1="13" x2="20" y2="13" stroke="white" stroke-width="2" stroke-linecap="round"></line>
+    <line id="menuLine3" x1="5" y1="19" x2="20" y2="19" stroke="white" stroke-width="2" stroke-linecap="round"></line>
+</svg>
+<div id="divMainMenu" class="main-menu-container">
+    <div class="close-button-container">
+        <svg xmlns="http://www.w3.org/2000/svg" onclick="Lettuce.Default.ToggleMainMenu()">
+            <line x1="0" y1="0" x2="15" y2="15" stroke="black" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="0" y1="15" x2="15" y2="0" stroke="black" stroke-width="2" stroke-linecap="round"></line>
+        </svg>
+    </div>
+    <div class="main-menu-content">
+        <div class="content-title">
+            <label>Display Name</label>
+        </div>
+        <br />
+        <input id="inputMyDisplayName" />
+        <br />
+        <br />
+        <br />
+        <div class="new-chat-div">
+            <button onclick="Lettuce.Messages.NewChat()" title="New Chat">+</button>
+        </div>
+        <div class="content-title">
+            <label>My Chats</label>
+        </div>
+        <div id="divMyChats">
+
+        </div>
+        <br />
+        <br />
+        <br />
+        <div class="content-title">
+            <label>Other Chats</label>
+        </div>
+        <div id="divOtherChats">
+
+        </div>
+        <br />
+
+    </div>
+</div>
+<div id="divMainMenuBackground" class="main-menu-background"></div>
+<div class="body-content">
+    <div id="divLogin">
+        <div class="welcome-logo-container">
+            <div>
+                <img src="~/images/icons8-Lettuce-96.png" />
+            </div>
+            <div>
+                Lettuce
+                <br />
+                Chat
+            </div>
+        </div>
+        <p>
+            <em>Instant, persistent chat.</em>
+        </p>
+        <div class="login-box">
+            <p>
+                <strong>
+                    Sign in as...
+                </strong>
+            </p>
+            <div>
+                <button onclick="Lettuce.Messages.GetGuestChat()">Guest</button>
+                <p class="button-caption">
+                    Create disposable chat rooms.
+                </p>
+            </div>
+            <hr />
+            <div>
+                <button onclick="Lettuce.Default.ShowLogin()">Log In</button>
+                <p class="button-caption">
+                    Save chats permanently and access them anywhere.
+                </p>
+            </div>
+        </div>
+        <div id="divLoginForm" class="dialog-frame hidden" hidden>
+            <div class="dialog-title-frame">
+                <div class="dialog-title-content">
+                    Log In or Sign Up
                 </div>
-            </td>
-            <td>
-                <img id="imgToggleUsers" src="~/images/icons8-User Groups Filled-100.png" onclick="Lettuce.Default.ToggleUsersMenu()" title="User List" />
-                <div id="divUserListFrame" class="user-list-frame">
-                    <div class="close-button-container">
-                        <svg xmlns="http://www.w3.org/2000/svg" onclick="Lettuce.Default.ToggleUsersMenu()">
-                            <line x1="0" y1="0" x2="15" y2="15" stroke="black" stroke-width="2" stroke-linecap="round"></line>
-                            <line x1="0" y1="15" x2="15" y2="0" stroke="black" stroke-width="2" stroke-linecap="round"></line>
-                        </svg>
-                    </div>
-                    <div class="user-list-content">
-                        Connected Users
-                        <hr />
-                        <div id="divUserList" class="user-list">
+            </div>
+            <div class="dialog-content">
 
+            </div>
+            <div class="dialog-button-frame">
+                <button>OK</button>
+                <button onclick="Lettuce.Default.HideLogin()">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <div id="divChatFrame" hidden class="chat-frame" ondragover="Lettuce.Default.DragOverChat(event)" ondrop="Lettuce.Default.DropOnChat(event)">
+        <table>
+            <tr>
+                <td>
+                    <div id="divMessages" class="chat-messages">
+
+                    </div>
+                </td>
+                <td>
+                    <img id="imgToggleUsers" src="~/images/icons8-User Groups Filled-100.png" onclick="Lettuce.Default.ToggleUsersMenu()" title="User List" />
+                    <div id="divUserListFrame" class="user-list-frame">
+                        <div class="close-button-container">
+                            <svg xmlns="http://www.w3.org/2000/svg" onclick="Lettuce.Default.ToggleUsersMenu()">
+                                <line x1="0" y1="0" x2="15" y2="15" stroke="black" stroke-width="2" stroke-linecap="round"></line>
+                                <line x1="0" y1="15" x2="15" y2="0" stroke="black" stroke-width="2" stroke-linecap="round"></line>
+                            </svg>
+                        </div>
+                        <div class="user-list-content">
+                            Connected Users
+                            <hr />
+                            <div id="divUserList" class="user-list">
+
+                            </div>
                         </div>
                     </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <div id="divStatus" class="chat-status"></div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <textarea id="textInput" placeholder="Type your message here." onkeydown='Lettuce.Default.InputKeyDown(event)'></textarea>
-            </td>
-            <td>
-                <div>
-                    <button id="buttonSend" onclick="Lettuce.Default.SubmitMessage(event)">Send</button>
-                    <img id="imgUpload" src="~/images/icons8-Upload-80.png" onclick='document.getElementById("inputFileUpload").click()' title="Upload File" />
-                    <input id="inputFileUpload" type="file" hidden multiple onchange='Lettuce.Default.TransferFile(this.files);' />
-                </div>
-            </td>
-        </tr>
-    </table>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div id="divStatus" class="chat-status"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <textarea id="textInput" placeholder="Type your message here." onkeydown='Lettuce.Default.InputKeyDown(event)'></textarea>
+                </td>
+                <td>
+                    <div>
+                        <button id="buttonSend" onclick="Lettuce.Default.SubmitMessage(event)">Send</button>
+                        <img id="imgUpload" src="~/images/icons8-Upload-80.png" onclick='document.getElementById("inputFileUpload").click()' title="Upload File" />
+                        <input id="inputFileUpload" type="file" hidden multiple onchange='Lettuce.Default.TransferFile(this.files);' />
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <hr style="margin-top: 20px" />
+    <footer>
+        <p style="float:left">
+            &copy; 2017 - Translucency
+        </p>
+        <p style="float:right">
+            Icons by <a target="_blank" href="https://icons8.com">Icons8</a>
+        </p>
+    </footer>
 </div>

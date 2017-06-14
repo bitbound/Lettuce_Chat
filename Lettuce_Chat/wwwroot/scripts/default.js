@@ -2,7 +2,7 @@ var Lettuce;
 (function (Lettuce) {
     var Default;
     (function (Default) {
-        function ToggleMainMenu(e) {
+        function ToggleMainMenu() {
             document.getElementById("divMainMenu").classList.toggle("menu-open");
             document.getElementById("divMainMenuBackground").classList.toggle("menu-open");
         }
@@ -12,6 +12,40 @@ var Lettuce;
             document.getElementById("divMainMenuBackground").classList.toggle("menu-open");
         }
         Default.ToggleUsersMenu = ToggleUsersMenu;
+        function ShowLogin() {
+            var login = document.getElementById("divLoginForm");
+            login.style.opacity = "0";
+            login.removeAttribute("hidden");
+            Lettuce.Utilities.FadeIn(login);
+        }
+        Default.ShowLogin = ShowLogin;
+        function HideLogin() {
+            var login = document.getElementById("divLoginForm");
+            Lettuce.Utilities.FadeOut(login);
+        }
+        Default.HideLogin = HideLogin;
+        function AddChat(Chat) {
+            var chatLabel = document.createElement("div");
+            chatLabel.classList.add("chat-label");
+            chatLabel.innerHTML = Chat.ChatName;
+            chatLabel.setAttribute("chat-id", Chat.ChatID);
+            chatLabel.id = "chat-" + Chat.ChatID;
+            var chatDiv;
+            if (Chat.OwnerName == Lettuce.Me.Username) {
+                chatDiv = document.getElementById("divMyChats");
+            }
+            else {
+                chatDiv = document.getElementById("divOtherChats");
+            }
+            chatDiv.appendChild(chatLabel);
+            chatLabel.onclick = function (e) {
+                if (e.currentTarget.classList.contains("selected")) {
+                    return;
+                }
+                Lettuce.Messages.ChangeChat(e.currentTarget.getAttribute("chat-id"));
+            };
+        }
+        Default.AddChat = AddChat;
         function DragOverChat(e) {
             e.preventDefault();
             e.dataTransfer.dropEffect = "copy";

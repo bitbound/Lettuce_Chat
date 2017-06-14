@@ -20,10 +20,17 @@
     <Content Include="wwwroot\scripts\main.js" />
     <Content Include="wwwroot\scripts\main.js.map" />
     <Content Include="wwwroot\scripts\main.ts" />
+    <Content Include="wwwroot\scripts\messages.js" />
+    <Content Include="wwwroot\scripts\messages.js.map" />
     <Content Include="wwwroot\scripts\Models\chat.ts" />
+    <Content Include="wwwroot\scripts\Models\chat_message.ts" />
+    <Content Include="wwwroot\scripts\Models\me.ts" />
     <Content Include="wwwroot\scripts\Models\socket.js" />
     <Content Include="wwwroot\scripts\Models\socket.js.map" />
     <Content Include="wwwroot\scripts\Models\socket.ts" />
+    <Content Include="wwwroot\scripts\Models\user.cs" />
+    <Content Include="wwwroot\scripts\Models\user.ts" />
+    <Content Include="wwwroot\scripts\messages.ts" />
     <Content Include="wwwroot\scripts\utilities.ts" />
   </ItemGroup>
   <ItemGroup>

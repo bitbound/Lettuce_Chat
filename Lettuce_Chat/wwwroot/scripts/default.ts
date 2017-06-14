@@ -1,5 +1,5 @@
 ﻿namespace Lettuce.Default {
-    export function ToggleMainMenu(e) {
+    export function ToggleMainMenu() {
         document.getElementById("divMainMenu").classList.toggle("menu-open");
         document.getElementById("divMainMenuBackground").classList.toggle("menu-open");
     }
@@ -7,11 +7,42 @@
         document.getElementById("divUserListFrame").classList.toggle("menu-open");
         document.getElementById("divMainMenuBackground").classList.toggle("menu-open");
     }
+    export function ShowLogin() {
+        var login = document.getElementById("divLoginForm") as HTMLDivElement;
+        login.style.opacity = "0";
+        login.removeAttribute("hidden");
+        Lettuce.Utilities.FadeIn(login);
+    }
+    export function HideLogin() {
+        var login = document.getElementById("divLoginForm") as HTMLDivElement;
+        Lettuce.Utilities.FadeOut(login);
+    }
+    export function AddChat(Chat: Lettuce.Models.Chat) {
+        var chatLabel = document.createElement("div");
+        chatLabel.classList.add("chat-label");
+        chatLabel.innerHTML = Chat.ChatName;
+        chatLabel.setAttribute("chat-id", Chat.ChatID);
+        chatLabel.id = "chat-" + Chat.ChatID;
+        var chatDiv: HTMLDivElement;
+        if (Chat.OwnerName == Lettuce.Me.Username) {
+            chatDiv = document.getElementById("divMyChats") as HTMLDivElement;
+        }
+        else {
+            chatDiv = document.getElementById("divOtherChats") as HTMLDivElement;
+        }
+        chatDiv.appendChild(chatLabel);
+        chatLabel.onclick = function (e) {
+            if ((e.currentTarget as HTMLDivElement).classList.contains("selected"))
+            {
+                return;
+            }
+            Lettuce.Messages.ChangeChat((e.currentTarget as HTMLDivElement).getAttribute("chat-id"));
+        }
+    }
     export function DragOverChat(e) {
         e.preventDefault();
         e.dataTransfer.dropEffect = "copy";
     }
-
     export function DropOnChat(e) {
         e.preventDefault();
         if (e.dataTransfer.files.length < 1) {
@@ -22,7 +53,6 @@
         }
         TransferFile(e.dataTransfer.files);
     }
-
     export function TransferFile(e) {
         for (var i = 0; i < e.length; i++) {
             document.getElementById("divStatus").innerHTML = "Uploading file...";
