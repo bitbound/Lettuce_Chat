@@ -28,6 +28,7 @@ input:hover {
     border: 2px solid limegreen;
 }
 .body-content {
+    min-height: 300px;
     padding-left: 15px;
     padding-right: 15px;
 }
