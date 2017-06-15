@@ -23,8 +23,10 @@ var Lettuce;
             }
         };
         Lettuce.Socket.onclose = function (e) {
+            Lettuce.Utilities.ShowDialog("Connection Closed", "Your connection has been closed.  Click OK to reconnect.", function () { location.reload(); });
         };
         Lettuce.Socket.onerror = function (e) {
+            Lettuce.Utilities.ShowDialog("Connection Closed", "Your connection has been closed.  Click OK to reconnect.", function () { location.reload(); });
         };
         Lettuce.Socket.onmessage = function (e) {
             var message = JSON.parse(e.data);

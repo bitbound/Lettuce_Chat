@@ -9,11 +9,20 @@
     <ApplicationIcon>wwwroot\favicon.ico</ApplicationIcon>
     <Authors>Jared Goodwin</Authors>
     <Company>Translucency</Company>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <Product>Lettuce Chat</Product>
+    <Description>An ASP.NET Core web app for instant, persistent chat.</Description>
+    <Copyright>Copyright 2017 Translucency</Copyright>
+    <PackageProjectUrl>https://github.com/Jay-Rad/Lettuce_Chat</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/Jay-Rad/Lettuce_Chat/blob/master/License.txt</PackageLicenseUrl>
+    <PackageIconUrl>https://github.com/Jay-Rad/Lettuce_Chat/blob/master/Lettuce_Chat/wwwroot/images/icons8-Lettuce-96.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/Jay-Rad/Lettuce_Chat</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
     <Content Include="wwwroot\favicon.ico" />
     <Content Include="wwwroot\images\icons8-Lettuce-96.png" />
+    <Content Include="wwwroot\images\icons8-Trash-80.png" />
     <Content Include="wwwroot\images\icons8-Upload-80.png" />
     <Content Include="wwwroot\images\icons8-User Groups Filled-100.png" />
     <Content Include="wwwroot\scripts\default.ts" />
@@ -25,10 +34,6 @@
     <Content Include="wwwroot\scripts\Models\chat.ts" />
     <Content Include="wwwroot\scripts\Models\chat_message.ts" />
     <Content Include="wwwroot\scripts\Models\me.ts" />
-    <Content Include="wwwroot\scripts\Models\socket.js" />
-    <Content Include="wwwroot\scripts\Models\socket.js.map" />
-    <Content Include="wwwroot\scripts\Models\socket.ts" />
-    <Content Include="wwwroot\scripts\Models\user.cs" />
     <Content Include="wwwroot\scripts\Models\user.ts" />
     <Content Include="wwwroot\scripts\messages.ts" />
     <Content Include="wwwroot\scripts\utilities.ts" />

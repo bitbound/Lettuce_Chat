@@ -22,6 +22,7 @@ input {
     padding-left: 10px;
     border: 2px solid lightgreen;
     width: 200px;
+    font-size: 1em;
 }
 input:hover {
     border: 2px solid limegreen;
@@ -30,7 +31,11 @@ input:hover {
     padding-left: 15px;
     padding-right: 15px;
 }
-
+.link {
+    color: dodgerblue;
+    cursor: pointer;
+    font-size: .9em;
+}
 
 /*** Banner ***/
 .banner-top {
@@ -217,8 +222,17 @@ input:hover {
     background-color: white;
     width: 300px;
 }
+
+#divLoginForm input {
+    width: calc(100% - 15px);
+}
 .login-box hr {
     display: none;
+}
+#imgDeleteChat {
+    cursor: pointer;
+    height: 25px;
+    width: 25px;
 }
 
 /*** Chat Area ***/
@@ -346,12 +360,38 @@ input:hover {
     width: 0;
     height: 0;
 }
+.system-message {
+    color: gray;
+    margin: 5px;
+    float: left;
+    clear: both;
+}
 .user-list-content {
     transform: translateY(-25px);
     pointer-events: none;
 }
+#divUserList {
+    font-size: .8em;
+}
 
-
+#divChatLink {
+    text-align: left;
+}
+#divChatLink span {
+    vertical-align: middle;
+}
+#inputChatLink {
+    width: calc(100% - 350px);
+    min-width: 200px;
+    vertical-align: middle;
+    font-size: .8em;
+    color:gray;
+    cursor: pointer;
+}
+#buttonCopyLink {
+    padding: 5px 10px;
+    vertical-align: middle;
+}
 /*** Dialog Box ***/
 .dialog-frame {
     position: fixed;
@@ -360,6 +400,8 @@ input:hover {
     transform: translate(-50%, -50%);
     border: 2px solid dimgray;
     border-radius: 10px;
+    background-color: white;
+    z-index: 4;
     box-shadow: 10px 10px 10px rgba(0,0,0,0.4)
 }
 .dialog-title-frame {
@@ -385,6 +427,7 @@ input:hover {
 }
 .dialog-button-frame button {
     padding: 5px 10px;
+    margin-left: 15px;
 }
 
 /*** Tooltip */
@@ -400,7 +443,75 @@ input:hover {
     padding: 10px 15px;
     border-radius: 5px;
 }
+/***  Toggle Switch ***/
+.switch-outer {
+    height: 25px;
+    width: 45px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+}
 
+.switch-outer[on="true"] {
+    background-color: steelblue;
+    transition: .5s;
+}
+
+.switch-outer[on="false"] {
+    background-color: gray;
+    transition: .5s;
+}
+
+.switch-inner {
+    border-radius: 100%;
+    background-color: white;
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.switch-outer[on="true"] .switch-inner {
+    margin-left: 24%;
+    transition: .5s;
+}
+
+.switch-outer[on="false"] .switch-inner {
+    margin-left: -24%;
+    transition: .5s;
+}
+
+/*** Edit Chat ***/
+#divEditChatForm.dialog-frame {
+    position: absolute;
+    top: 25px;
+    transform: translateX(-50%);
+    min-width: 300px;
+}
+#divEditChatForm td:last-child {
+    text-align: right;
+}
+#divEditChatForm table {
+    width: 100%;
+}
+.spacer-row {
+    height: 1em;
+}
+#divEditChatForm button {
+    padding: 5px 10px;
+}
+
+#divEditChatForm input {
+    width: calc(100% - 15px);
+}
+
+#divEditChatForm select {
+    width: 100%
+}
 
 @media only screen and (max-width : 550px) {
     .login-box hr {
@@ -436,5 +547,15 @@ input:hover {
     }
     .chat-frame #buttonSend {
         display: none;
+    }
+    #divChatLink span {
+        display: none;
+    }
+
+    #buttonCopyLink {
+        display: none;
+    }
+    #inputChatLink {
+        width: calc(100% - 25px);
     }
 }

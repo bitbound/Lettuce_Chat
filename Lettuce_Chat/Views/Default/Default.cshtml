@@ -22,7 +22,10 @@
             <label>Display Name</label>
         </div>
         <br />
-        <input id="inputMyDisplayName" />
+        <input id="inputMyDisplayName" maxlength="20" onblur="Lettuce.Messages.UpdateDisplayName()" />
+        <br />
+        <span id="spanLogIn" class="link" onclick="Lettuce.Default.ShowLogin()">Log In</span>
+        <span id="spanLogOut" class="link" onclick="Lettuce.Default.LogOut()" hidden>Log Out</span>
         <br />
         <br />
         <br />
@@ -84,26 +87,23 @@
                 </p>
             </div>
         </div>
-        <div id="divLoginForm" class="dialog-frame hidden" hidden>
-            <div class="dialog-title-frame">
-                <div class="dialog-title-content">
-                    Log In or Sign Up
-                </div>
-            </div>
-            <div class="dialog-content">
-
-            </div>
-            <div class="dialog-button-frame">
-                <button>OK</button>
-                <button onclick="Lettuce.Default.HideLogin()">Cancel</button>
-            </div>
-        </div>
     </div>
     <div id="divChatFrame" hidden class="chat-frame" ondragover="Lettuce.Default.DragOverChat(event)" ondrop="Lettuce.Default.DropOnChat(event)">
         <table>
             <tr>
+                <td colspan="2">
+                    <div id="divChatLink">
+                        <span>
+                            Chat Link:
+                        </span>
+                        <input id="inputChatLink" readonly onclick="Lettuce.Default.CopyLink()" />
+                        <button id="buttonCopyLink" onclick="Lettuce.Default.CopyLink()">Copy</button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
                 <td>
-                    <div id="divMessages" class="chat-messages">
+                    <div id="divMessages" class="chat-messages" onscroll="Lettuce.Default.MessageScroll(event)">
 
                     </div>
                 </td>
@@ -119,7 +119,7 @@
                         <div class="user-list-content">
                             Connected Users
                             <hr />
-                            <div id="divUserList" class="user-list">
+                            <div id="divUserList">
 
                             </div>
                         </div>
@@ -145,8 +145,129 @@
             </tr>
         </table>
     </div>
+    <div id="divLoginForm" class="dialog-frame hidden" hidden>
+        <div class="dialog-title-frame">
+            <div class="dialog-title-content">
+                Log In or Sign Up
+            </div>
+        </div>
+        <div class="dialog-content">
+            <label>User Name:</label>
+            <br />
+            <input type="text" id="inputLoginUsername" onkeypress="Lettuce.Default.EvalLoginKey(event)" maxlength="20" />
+            <div id="divLoginPassword" hidden>
+                <label>Password:</label>
+                <br />
+                <input type="password" id="inputLoginPassword" onkeypress="Lettuce.Default.EvalLoginKey(event)" maxlength="30" />
+            </div>
+            <div id="divLoginConfirmPassword" hidden>
+                <label>Confirm Password:</label>
+                <br />
+                <input type="password" id="inputLoginConfirmPassword" onkeypress="Lettuce.Default.EvalLoginKey(event)" maxlength="30" />
+            </div>
+        </div>
+        <div class="dialog-button-frame">
+            <button onclick="Lettuce.Default.LoginNext()">Next</button>
+            <button onclick="Lettuce.Default.HideLogin()">Cancel</button>
+        </div>
+    </div>
+    <div id="divEditChatForm" class="dialog-frame hidden" hidden>
+        <div class="dialog-title-frame">
+            <div class="dialog-title-content">
+                Edit Chat
+            </div>
+        </div>
+        <div class="dialog-content">
+            <table>
+                <tr>
+                    <td>
+                        Chat Name:
+                    </td>
+                    <td>
+                        <input id="inputChatID" type="hidden" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input id="inputChatName" maxlength="25" />
+                    </td>
+                </tr>
+                <tr class="spacer-row"></tr>
+                <tr>
+                    <td>
+                        Member Only:
+                    </td>
+                    <td>
+                        <div id="toggleMemberOnly" class="switch-outer" on="false" onclick="Lettuce.Default.ToggleMemberOnly()">
+                            <div class="switch-inner"></div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="spacer-row"></tr>
+                <tr>
+                    <td>
+                        Members:
+                    </td>
+                    <td>
+                        <button id="buttonAddMember" onclick="Lettuce.Messages.AddMember()">Add</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input id="inputAddMember" maxlength="25" placeholder="Enter username (not display name)" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <select id="selectMembers" multiple size="4"></select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        <button id="buttonRemoveMember">Remove</button>
+                    </td>
+                </tr>
+                <tr class="spacer-row"></tr>
+                <tr>
+                    <td>
+                        Admins:
+                    </td>
+                    <td>
+                        <button id="buttonAddAdmin" onclick="Lettuce.Messages.AddAdmin()">Add</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input id="inputAddAdmin" maxlength="20" placeholder="Enter username (not display name)" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <select id="selectAdmins" multiple size="4"></select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button id="buttonRemoveAdmin">Remove</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <img id="imgDeleteChat" src="~/images/icons8-Trash-80.png" onclick="Lettuce.Messages.DeleteChat()" title="Delete Chat" />
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+        <div class="dialog-button-frame">
+            <button onclick="Lettuce.Default.SaveChatEdit()">Save</button>
+            <button onclick="document.getElementById('divEditChatForm').setAttribute('hidden', '')">Cancel</button>
+        </div>
+    </div>
     <hr style="margin-top: 20px" />
-    <footer>
+    <footer style="color: gray;">
         <p style="float:left">
             &copy; 2017 - Translucency
         </p>

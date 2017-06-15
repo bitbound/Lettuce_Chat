@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Lettuce_Chat.Classes;
+using System.Net.WebSockets;
 
 namespace Lettuce_Chat
 {
@@ -61,7 +62,26 @@ namespace Lettuce_Chat
                 ReceiveBufferSize = 10 * 1024
             };
             app.UseWebSockets(webSocketOptions);
-            new Socket_Handler(env).AddHandler(app, "/Socket");
+            app.Use(async (context, next) =>
+            {
+                if (context.Request.Path == "/Socket")
+                {
+                    if (context.WebSockets.IsWebSocketRequest)
+                    {
+                        WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
+                        await new Socket_Handler().HandleSocket(context, webSocket);
+                    }
+                    else
+                    {
+                        context.Response.StatusCode = 400;
+                    }
+                }
+                else
+                {
+                    await next();
+                }
+
+            });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

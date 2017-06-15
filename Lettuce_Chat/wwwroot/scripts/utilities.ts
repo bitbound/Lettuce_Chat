@@ -1,5 +1,5 @@
 ﻿namespace Lettuce.Utilities {
-    export function ShowDialog(title:string, content:string) {
+    export function ShowDialog(Title: string, Content: string, ButtonAction: () => void) {
         var dialog = document.createElement("div");
         dialog.classList.add("dialog-frame");
         var divTitleFrame = document.createElement("div");
@@ -7,28 +7,28 @@
         dialog.appendChild(divTitleFrame);
         var divTitleContent = document.createElement("div");
         divTitleContent.classList.add("dialog-title-content")
-        divTitleContent.innerHTML = title;
+        divTitleContent.innerHTML = Title;
         divTitleFrame.appendChild(divTitleContent);
         var divDialogContent = document.createElement("div");
         divDialogContent.classList.add("dialog-content");
-        divDialogContent.innerHTML = content;
+        divDialogContent.innerHTML = Content;
         dialog.appendChild(divDialogContent);
         var divDialogButtonFrame = document.createElement("div");
         divDialogButtonFrame.classList.add("dialog-button-frame");
         var buttonClose = document.createElement("button");
         
         buttonClose.onclick = function (e) {
-            var dialogs = document.getElementsByClassName("dialog-frame");
-            for (var i = 0; i < dialogs.length; i++) {
-                document.body.removeChild(dialogs[i]);
+            if (ButtonAction) {
+                ButtonAction();
             }
+            document.body.removeChild(dialog);
         };
         buttonClose.innerHTML = "OK";
         divDialogButtonFrame.appendChild(buttonClose);
         dialog.appendChild(divDialogButtonFrame);
         document.body.appendChild(dialog);
     }
-    export function ShowDialogEx(title:string, content:string, buttons:Array<HTMLButtonElement>) {
+    export function ShowDialogEx(Title:string, Content:string, Buttons:Array<HTMLButtonElement>) {
         var dialog = document.createElement("div");
         dialog.classList.add("dialog-frame");
         var divTitleFrame = document.createElement("div");
@@ -36,16 +36,16 @@
         dialog.appendChild(divTitleFrame);
         var divTitleContent = document.createElement("div");
         divTitleContent.classList.add("dialog-title-content")
-        divTitleContent.innerHTML = title;
+        divTitleContent.innerHTML = Title;
         divTitleFrame.appendChild(divTitleContent);
         var divDialogContent = document.createElement("div");
         divDialogContent.classList.add("dialog-content");
-        divDialogContent.innerHTML = content;
+        divDialogContent.innerHTML = Content;
         dialog.appendChild(divDialogContent);
         var divDialogButtonFrame = document.createElement("div");
         divDialogButtonFrame.classList.add("dialog-button-frame");
-        for (var i = 0; i < buttons.length; i++) {
-            divDialogButtonFrame.appendChild(buttons[i]);
+        for (var i = 0; i < Buttons.length; i++) {
+            divDialogButtonFrame.appendChild(Buttons[i]);
         }
         dialog.appendChild(divDialogButtonFrame);
         document.body.appendChild(dialog);
@@ -64,18 +64,20 @@
             }, 5)
         }
     }
-    export function FadeOut(Elem: HTMLElement) {
+    export function FadeOut(Elem: HTMLElement, HideAfter: boolean) {
         if (!Elem.style.opacity) {
             Elem.style.opacity = "1";
         }
         Elem.style.opacity = String(Number(Elem.style.opacity) - .01);
         if (Number(Elem.style.opacity) > 0) {
             window.setTimeout(() => {
-                FadeOut(Elem);
+                FadeOut(Elem, HideAfter);
             }, 5)
         }
         else {
-            Elem.setAttribute("hidden", "");
+            if (HideAfter) {
+                Elem.setAttribute("hidden", "");
+            }
         }
     }
     export function ShowTooltip(Content: string, FontColor: string) {
@@ -83,12 +85,13 @@
         tooltip.classList.add("tooltip-frame");
         tooltip.style.color = FontColor;
         tooltip.innerHTML = Content;
+        tooltip.style.zIndex = "4";
         document.body.appendChild(tooltip);
         window.setTimeout(() => {
-            FadeOut(tooltip);
+            FadeOut(tooltip, true);
             window.setTimeout(() => {
                 document.body.removeChild(tooltip);
-            }, 750);
+            }, Content.length * 20);
         }, 1500)
     }
 }

@@ -11,6 +11,7 @@ namespace Lettuce_Chat.Models
     public class User
     {
         public string Username { get; set; }
+        public string Password { get; set; }
         public string DisplayName { get; set; }
         public Utilities.Permanence AccountType { get; set; }
         public List<string> AuthenticationTokens { get; set; } = new List<string>();
@@ -20,6 +21,10 @@ namespace Lettuce_Chat.Models
         public DateTime LastBadLogin { get; set; }
         public void Save()
         {
+            InvitedChats = InvitedChats.Distinct().ToList();
+            OwnedChats = OwnedChats.Distinct().ToList();
+            InvitedChats.RemoveAll(chat => !Chat.Exists(chat));
+            OwnedChats.RemoveAll(chat => !Chat.Exists(chat));
             var di = Directory.CreateDirectory(Path.Combine(Utilities.RootPath, "Data", "Users"));
             File.WriteAllText(Path.Combine(di.FullName, Username + ".json"), JsonConvert.SerializeObject(this));
         }
@@ -34,6 +39,11 @@ namespace Lettuce_Chat.Models
             {
                 return null;
             }
+        }
+        public static bool Exists(string Username)
+        {
+            var di = Directory.CreateDirectory(Path.Combine(Utilities.RootPath, "Data", "Users"));
+            return File.Exists(Path.Combine(di.FullName, Username + ".json"));
         }
         public static string GetNewUsername()
         {

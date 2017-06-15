@@ -26,7 +26,7 @@ namespace Lettuce_Chat.Controllers
             var di = Directory.CreateDirectory(Path.Combine(Env.ContentRootPath, "File_Transfers"));
             foreach (var file in di.GetFiles())
             {
-                if (DateTime.Now - file.CreationTime > TimeSpan.FromDays(1))
+                if (DateTime.Now - file.CreationTime > TimeSpan.FromDays(7))
                 {
                     try
                     {

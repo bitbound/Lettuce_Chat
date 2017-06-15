@@ -21,6 +21,11 @@ var Lettuce;
             set AuthenticationToken(Token) {
                 localStorage["Lettuce-AuthenticationToken"] = Token;
             }
+            ClearCreds() {
+                Lettuce.Me.AuthenticationToken = null;
+                Lettuce.Me.DisplayName = null;
+                Lettuce.Me.Username = null;
+            }
         }
         Models.Me = Me;
     })(Models = Lettuce.Models || (Lettuce.Models = {}));

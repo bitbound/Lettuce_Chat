@@ -418,6 +418,7 @@ namespace Lettuce_Chat.Classes
         }
         public static void WriteToLog(Exception Ex)
         {
+            var di = Directory.CreateDirectory(Path.Combine(RootPath, "Data", "Logs", DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString()));
             var exception = Ex;
             while (exception != null)
             {
@@ -429,20 +430,21 @@ namespace Lettuce_Chat.Classes
                     Source = exception.Source,
                     Stack = exception.StackTrace
                 };
-                File.WriteAllText(JsonConvert.SerializeObject(entry) + Environment.NewLine, RootPath + $@"\Data\Logs\{DateTime.Now.Year}\{DateTime.Now.Month}\{DateTime.Now.Day}.txt");
+                File.WriteAllText(Path.Combine(di.FullName, DateTime.Now.Day.ToString() + ".txt"), JsonConvert.SerializeObject(entry) + Environment.NewLine);
                 exception = exception.InnerException;
             }
 
         }
         public static void WriteToLog(string Message)
         {
+            var di = Directory.CreateDirectory(Path.Combine(RootPath, "Data", "Logs", DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString()));
             var entry = new
             {
                 Type = "Info",
                 Timestamp = DateTime.Now,
                 Message = Message
             };
-            File.WriteAllText(JsonConvert.SerializeObject(entry) + Environment.NewLine, RootPath + $@"\Data\Logs\{DateTime.Now.Year}\{DateTime.Now.Month}\{DateTime.Now.Day}.txt");
+            File.WriteAllText(Path.Combine(di.FullName, DateTime.Now.Day.ToString() + ".txt"), JsonConvert.SerializeObject(entry) + Environment.NewLine);
         }
         public enum Permanence
         {

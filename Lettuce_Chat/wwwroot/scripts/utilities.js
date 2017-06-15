@@ -2,7 +2,7 @@ var Lettuce;
 (function (Lettuce) {
     var Utilities;
     (function (Utilities) {
-        function ShowDialog(title, content) {
+        function ShowDialog(Title, Content, ButtonAction) {
             var dialog = document.createElement("div");
             dialog.classList.add("dialog-frame");
             var divTitleFrame = document.createElement("div");
@@ -10,20 +10,20 @@ var Lettuce;
             dialog.appendChild(divTitleFrame);
             var divTitleContent = document.createElement("div");
             divTitleContent.classList.add("dialog-title-content");
-            divTitleContent.innerHTML = title;
+            divTitleContent.innerHTML = Title;
             divTitleFrame.appendChild(divTitleContent);
             var divDialogContent = document.createElement("div");
             divDialogContent.classList.add("dialog-content");
-            divDialogContent.innerHTML = content;
+            divDialogContent.innerHTML = Content;
             dialog.appendChild(divDialogContent);
             var divDialogButtonFrame = document.createElement("div");
             divDialogButtonFrame.classList.add("dialog-button-frame");
             var buttonClose = document.createElement("button");
             buttonClose.onclick = function (e) {
-                var dialogs = document.getElementsByClassName("dialog-frame");
-                for (var i = 0; i < dialogs.length; i++) {
-                    document.body.removeChild(dialogs[i]);
+                if (ButtonAction) {
+                    ButtonAction();
                 }
+                document.body.removeChild(dialog);
             };
             buttonClose.innerHTML = "OK";
             divDialogButtonFrame.appendChild(buttonClose);
@@ -31,7 +31,7 @@ var Lettuce;
             document.body.appendChild(dialog);
         }
         Utilities.ShowDialog = ShowDialog;
-        function ShowDialogEx(title, content, buttons) {
+        function ShowDialogEx(Title, Content, Buttons) {
             var dialog = document.createElement("div");
             dialog.classList.add("dialog-frame");
             var divTitleFrame = document.createElement("div");
@@ -39,16 +39,16 @@ var Lettuce;
             dialog.appendChild(divTitleFrame);
             var divTitleContent = document.createElement("div");
             divTitleContent.classList.add("dialog-title-content");
-            divTitleContent.innerHTML = title;
+            divTitleContent.innerHTML = Title;
             divTitleFrame.appendChild(divTitleContent);
             var divDialogContent = document.createElement("div");
             divDialogContent.classList.add("dialog-content");
-            divDialogContent.innerHTML = content;
+            divDialogContent.innerHTML = Content;
             dialog.appendChild(divDialogContent);
             var divDialogButtonFrame = document.createElement("div");
             divDialogButtonFrame.classList.add("dialog-button-frame");
-            for (var i = 0; i < buttons.length; i++) {
-                divDialogButtonFrame.appendChild(buttons[i]);
+            for (var i = 0; i < Buttons.length; i++) {
+                divDialogButtonFrame.appendChild(Buttons[i]);
             }
             dialog.appendChild(divDialogButtonFrame);
             document.body.appendChild(dialog);
@@ -69,18 +69,20 @@ var Lettuce;
             }
         }
         Utilities.FadeIn = FadeIn;
-        function FadeOut(Elem) {
+        function FadeOut(Elem, HideAfter) {
             if (!Elem.style.opacity) {
                 Elem.style.opacity = "1";
             }
             Elem.style.opacity = String(Number(Elem.style.opacity) - .01);
             if (Number(Elem.style.opacity) > 0) {
                 window.setTimeout(() => {
-                    FadeOut(Elem);
+                    FadeOut(Elem, HideAfter);
                 }, 5);
             }
             else {
-                Elem.setAttribute("hidden", "");
+                if (HideAfter) {
+                    Elem.setAttribute("hidden", "");
+                }
             }
         }
         Utilities.FadeOut = FadeOut;
@@ -89,12 +91,13 @@ var Lettuce;
             tooltip.classList.add("tooltip-frame");
             tooltip.style.color = FontColor;
             tooltip.innerHTML = Content;
+            tooltip.style.zIndex = "4";
             document.body.appendChild(tooltip);
             window.setTimeout(() => {
-                FadeOut(tooltip);
+                FadeOut(tooltip, true);
                 window.setTimeout(() => {
                     document.body.removeChild(tooltip);
-                }, 750);
+                }, Content.length * 20);
             }, 1500);
         }
         Utilities.ShowTooltip = ShowTooltip;
