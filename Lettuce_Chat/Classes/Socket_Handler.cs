@@ -256,7 +256,8 @@ namespace Lettuce_Chat.Classes
         }
         public void SendChatHistory(DateTime Start)
         {
-            var strPath = Path.Combine(Utilities.RootPath, "Data", "Messages", CurrentChat.ChatID + ".txt");
+            var di = Directory.CreateDirectory(Path.Combine(Utilities.RootPath, "Data", "Messages"));
+            var strPath = Path.Combine(di.FullName, CurrentChat.ChatID + ".txt");
             var messages = new List<Chat_Message>();
             var fs = new FileStream(strPath, FileMode.OpenOrCreate);
             var sr = new StreamReader(fs);
@@ -621,6 +622,10 @@ namespace Lettuce_Chat.Classes
                         }
                     case "UpdateDisplayName":
                         {
+                            if (CurrentUser == null)
+                            {
+                                return;
+                            }
                             if (jsonMessage.DisplayName.Length == 0)
                             {
                                 jsonMessage.Status = "blank";
@@ -672,7 +677,7 @@ namespace Lettuce_Chat.Classes
                             {
                                 return;
                             }
-                            if (User.Exists(jsonMessage.Username))
+                            if (!User.Exists(jsonMessage.Username))
                             {
                                 jsonMessage.Status = "not found";
                             }
@@ -694,7 +699,7 @@ namespace Lettuce_Chat.Classes
                             {
                                 return;
                             }
-                            if (User.Exists(jsonMessage.Username))
+                            if (!User.Exists(jsonMessage.Username))
                             {
                                 jsonMessage.Status = "not found";
                             }

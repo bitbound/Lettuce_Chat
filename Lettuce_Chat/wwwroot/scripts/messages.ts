@@ -79,13 +79,16 @@
     export function DeleteChat() {
         var yes = document.createElement("button");
         yes.innerHTML = "Yes";
-        yes.onclick = function () {
+        yes.onclick = function (e) {
             var chatID = (document.getElementById("inputChatID") as HTMLInputElement).value;
             var request = {
                 "Type": "DeleteChat",
                 "ChatID": chatID
             }
             Lettuce.Socket.send(JSON.stringify(request));
+            document.getElementById("divEditChatForm").setAttribute("hidden", "");
+            document.getElementById("chat-" + chatID).remove();
+            document.body.removeChild((e.currentTarget as HTMLButtonElement).parentElement.parentElement);
         };
         var no = document.createElement("button");
         no.innerHTML = "No";
@@ -282,7 +285,7 @@
             case "AddAdmin":
                 if (JsonMessage.Status == "ok") {
                     var username = (document.getElementById("inputAddAdmin") as HTMLInputElement).value;
-                    (document.getElementById("selectAdmin") as HTMLSelectElement).innerHTML += "<option>" + username + "</option>";
+                    (document.getElementById("selectAdmins") as HTMLSelectElement).innerHTML += "<option>" + username + "</option>";
                     (document.getElementById("inputAddAdmin") as HTMLInputElement).value = "";
                 } else if (JsonMessage.Status == "not found") {
                     Lettuce.Utilities.ShowTooltip("User not found.", "black");
@@ -389,11 +392,14 @@
                 }
                 else if (JsonMessage.Status == "ok") {
                     document.getElementById("divEditChatForm").setAttribute("hidden", "");
-                    document.getElementById("chat-" + JsonMessage.ChatID).remove();
+                    if (document.getElementById("chat-" + JsonMessage.ChatID))
+                    {
+                        document.getElementById("chat-" + JsonMessage.ChatID).remove();
+                    }
                     document.getElementById("divUserList").innerHTML = "";
                     document.getElementById("divMessages").innerHTML = "";
                     (document.getElementById("inputChatLink") as HTMLInputElement).value = "";
-                    Lettuce.Utilities.ShowDialog("Chat Deleted", "The chat you're in has been deleted.", null);
+                    Lettuce.Utilities.ShowDialog("Chat Deleted", "The chat you were in has been deleted.", null);
                 }
                 break;
             case "CommandOutput":
