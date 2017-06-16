@@ -7,6 +7,9 @@
         document.getElementById("divUserListFrame").classList.toggle("menu-open");
         document.getElementById("divMainMenuBackground").classList.toggle("menu-open");
     }
+    export function ShowHelp() {
+        Lettuce.Utilities.ShowDialog("Help", "<p>Right-click/long-press chats to edit</p><p>Type /? into chat for additional commands</p>", null);
+    }
     export function ShowLogin() {
         if (document.getElementById("divMainMenu").classList.contains("menu-open")) {
             Lettuce.Default.ToggleMainMenu();

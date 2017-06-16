@@ -177,6 +177,13 @@ input:hover {
     font-weight: bold;
     float: right;
 }
+#imgHelpButton {
+    height: 25px;
+    width: 25px;
+    cursor: pointer;
+    float: left;
+    margin: 5px;
+}
 /*** Welcome/Login ***/
 #divLogin {
     text-align: center;

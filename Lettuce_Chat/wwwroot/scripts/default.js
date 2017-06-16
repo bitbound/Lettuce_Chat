@@ -12,6 +12,10 @@ var Lettuce;
             document.getElementById("divMainMenuBackground").classList.toggle("menu-open");
         }
         Default.ToggleUsersMenu = ToggleUsersMenu;
+        function ShowHelp() {
+            Lettuce.Utilities.ShowDialog("Help", "<p>Right-click/long-press chats to edit</p><p>Type /? into chat for additional commands</p>", null);
+        }
+        Default.ShowHelp = ShowHelp;
         function ShowLogin() {
             if (document.getElementById("divMainMenu").classList.contains("menu-open")) {
                 Lettuce.Default.ToggleMainMenu();

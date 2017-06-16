@@ -50,7 +50,7 @@
         dialog.appendChild(divDialogButtonFrame);
         document.body.appendChild(dialog);
     }
-    export function FadeIn(Elem: HTMLElement) {
+    export function FadeIn(Elem: HTMLElement, Callback?: Function) {
         if (Elem.hasAttribute("hidden")) {
             Elem.removeAttribute("hidden");
         }
@@ -58,25 +58,35 @@
             Elem.style.opacity = "0";
         }
         Elem.style.opacity = String(Number(Elem.style.opacity) + .01);
+        Elem.style.display = "unset";
         if (Number(Elem.style.opacity) < 1) {
             window.setTimeout(() => {
-                FadeIn(Elem);
+                FadeIn(Elem, Callback);
             }, 5)
         }
+        else
+        {
+            if (Callback) {
+                Callback();
+            }
+        }
     }
-    export function FadeOut(Elem: HTMLElement, HideAfter: boolean) {
+    export function FadeOut(Elem: HTMLElement, HideAfter: boolean, Callback?: Function) {
         if (!Elem.style.opacity) {
             Elem.style.opacity = "1";
         }
         Elem.style.opacity = String(Number(Elem.style.opacity) - .01);
         if (Number(Elem.style.opacity) > 0) {
             window.setTimeout(() => {
-                FadeOut(Elem, HideAfter);
+                FadeOut(Elem, HideAfter, Callback);
             }, 5)
         }
         else {
             if (HideAfter) {
                 Elem.setAttribute("hidden", "");
+            }
+            if (Callback) {
+                Callback();
             }
         }
     }

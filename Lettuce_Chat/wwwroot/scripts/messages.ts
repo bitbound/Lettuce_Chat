@@ -108,8 +108,9 @@
                     Lettuce.Default.AddChat(JsonMessage.Chat);
                     document.getElementById("chat-" + JsonMessage.Chat.ChatID).classList.add("selected");
                     (document.getElementById("inputChatLink") as HTMLInputElement).value = location.origin + "/?chat=" + JsonMessage.Chat.ChatID;
-                    Lettuce.Utilities.FadeOut(document.getElementById("divLogin"), true);
-                    Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"));
+                    Lettuce.Utilities.FadeOut(document.getElementById("divLogin"), true, function () {
+                        Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"));
+                    });
                 }
                 break;
             case "TryResumeLogin":
@@ -137,8 +138,9 @@
                         document.getElementById("spanLogIn").setAttribute("hidden", "");
                         document.getElementById("spanLogOut").removeAttribute("hidden");
                     }
-                    Lettuce.Utilities.FadeOut(document.getElementById("divLogin"), true);
-                    Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"));
+                    Lettuce.Utilities.FadeOut(document.getElementById("divLogin"), true, function () {
+                        Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"));
+                    });
                 }
                 break;
             case "ChangeChat":
@@ -215,8 +217,9 @@
                     }
                     document.getElementById("chat-" + JsonMessage.Chat.ChatID).classList.add("selected");
                     (document.getElementById("inputChatLink") as HTMLInputElement).value = location.origin + "/?chat=" + JsonMessage.Chat.ChatID;
-                    Lettuce.Utilities.FadeOut(document.getElementById("divLogin"), true);
-                    Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"));
+                    Lettuce.Utilities.FadeOut(document.getElementById("divLogin"), true, function () {
+                        Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"));
+                    });
                 }
                 break;
             case "ChatMessage":
@@ -340,9 +343,10 @@
                         document.getElementById("spanLogOut").removeAttribute("hidden");
                     }
                     
-                    Lettuce.Utilities.FadeOut(document.getElementById("divLogin"), true);
                     Lettuce.Default.HideLogin();
-                    Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"));
+                    Lettuce.Utilities.FadeOut(document.getElementById("divLogin"), true, function () {
+                        Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"));
+                    });
                 }
                 break;
             case "LoginNewUser":
@@ -364,9 +368,10 @@
                         document.getElementById("spanLogOut").removeAttribute("hidden");
                     }
 
-                    Lettuce.Utilities.FadeOut(document.getElementById("divLogin"), true);
                     Lettuce.Default.HideLogin();
-                    Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"));
+                    Lettuce.Utilities.FadeOut(document.getElementById("divLogin"), true, function () {
+                        Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"));
+                    });
                 }
                 break;
             case "LoginElsewhere":

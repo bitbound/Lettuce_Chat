@@ -54,7 +54,7 @@ var Lettuce;
             document.body.appendChild(dialog);
         }
         Utilities.ShowDialogEx = ShowDialogEx;
-        function FadeIn(Elem) {
+        function FadeIn(Elem, Callback) {
             if (Elem.hasAttribute("hidden")) {
                 Elem.removeAttribute("hidden");
             }
@@ -62,26 +62,35 @@ var Lettuce;
                 Elem.style.opacity = "0";
             }
             Elem.style.opacity = String(Number(Elem.style.opacity) + .01);
+            Elem.style.display = "unset";
             if (Number(Elem.style.opacity) < 1) {
                 window.setTimeout(() => {
-                    FadeIn(Elem);
+                    FadeIn(Elem, Callback);
                 }, 5);
+            }
+            else {
+                if (Callback) {
+                    Callback();
+                }
             }
         }
         Utilities.FadeIn = FadeIn;
-        function FadeOut(Elem, HideAfter) {
+        function FadeOut(Elem, HideAfter, Callback) {
             if (!Elem.style.opacity) {
                 Elem.style.opacity = "1";
             }
             Elem.style.opacity = String(Number(Elem.style.opacity) - .01);
             if (Number(Elem.style.opacity) > 0) {
                 window.setTimeout(() => {
-                    FadeOut(Elem, HideAfter);
+                    FadeOut(Elem, HideAfter, Callback);
                 }, 5);
             }
             else {
                 if (HideAfter) {
                     Elem.setAttribute("hidden", "");
+                }
+                if (Callback) {
+                    Callback();
                 }
             }
         }
