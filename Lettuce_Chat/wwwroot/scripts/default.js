@@ -169,6 +169,19 @@ var Lettuce;
                 }
                 return false;
             };
+            chatLabel.ontouchstart = function (e) {
+                chatLabel.ontouchend = function (e) {
+                    window["Touching"] = false;
+                };
+                window["Touching"] = true;
+                var chatID = e.currentTarget.getAttribute("chat-id");
+                window.setTimeout(function () {
+                    if (window["Touching"] == true) {
+                        window["Touching"] = false;
+                        Lettuce.Messages.GetChatInfo(chatID);
+                    }
+                }, 1000);
+            };
         }
         Default.AddChat = AddChat;
         function CopyLink() {

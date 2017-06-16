@@ -575,6 +575,10 @@ namespace Lettuce_Chat.Classes
                         }
                     case "NewChat":
                         {
+                            if (CurrentUser == null)
+                            {
+                                return;
+                            }
                             var newChat = new Chat()
                             {
                                 ChatID = Chat.GetNewID(),

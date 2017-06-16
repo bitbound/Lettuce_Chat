@@ -28,7 +28,6 @@ input:hover {
     border: 2px solid limegreen;
 }
 .body-content {
-    min-height: 300px;
     padding-left: 15px;
     padding-right: 15px;
 }
@@ -155,6 +154,10 @@ input:hover {
     background-color: whitesmoke;
     border: 1px solid gray;
     display: inline-block;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 .main-menu-content .chat-label:hover {
     background-color: lightgreen;
