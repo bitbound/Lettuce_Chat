@@ -13,7 +13,7 @@ var Lettuce;
         }
         Default.ToggleUsersMenu = ToggleUsersMenu;
         function ShowHelp() {
-            Lettuce.Utilities.ShowDialog("Help", "<p>Right-click/long-press chats to edit</p><p>Type /? into chat for additional commands</p>", null);
+            Lettuce.Utilities.ShowDialog("Help", "<ul><li>Right-click/long-press chats to edit</li><li>Type /? into chat for additional commands</li><li>Drag-and-drop files to upload</li></ul>", null);
         }
         Default.ShowHelp = ShowHelp;
         function ShowLogin() {
@@ -326,11 +326,11 @@ var Lettuce;
                 for (var i = 0; i < messages.children.length; i++) {
                     if (messages.children[i].classList.contains("received-chat") || messages.children[i].classList.contains("sent-chat")) {
                         var strHeader = messages.children[i].children[1].innerHTML;
-                        for (var i = 0; i < strHeader.length; i++) {
-                            if (!isNaN(Date.parse(strHeader.slice(i)))) {
-                                Lettuce.Messages.GetChatHistory(new Date(Date.parse(strHeader.slice(i))));
-                                return;
-                            }
+                        var arrHeader = strHeader.split(" at ");
+                        var strDate = arrHeader[arrHeader.length - 1];
+                        if (!isNaN(Date.parse(strDate))) {
+                            Lettuce.Messages.GetChatHistory(new Date(Date.parse(strDate)));
+                            return;
                         }
                     }
                 }

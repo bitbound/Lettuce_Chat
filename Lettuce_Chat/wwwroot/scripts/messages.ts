@@ -29,10 +29,10 @@
         }
         Lettuce.Socket.send(JSON.stringify(request));
     }
-    export function GetChatHistory(StartPoint: Date) {
+    export function GetChatHistory(StartDate: Date) {
         var request = {
             "Type": "GetChatHistory",
-            "Start": StartPoint
+            "Start": StartDate
         }
         Lettuce.Socket.send(JSON.stringify(request));
     }
@@ -139,7 +139,11 @@
                         document.getElementById("spanLogOut").removeAttribute("hidden");
                     }
                     Lettuce.Utilities.FadeOut(document.getElementById("divLogin"), true, function () {
-                        Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"));
+                        Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"), function () {
+                            var messageDiv = document.getElementById("divMessages");
+                            messageDiv.scrollTop = messageDiv.scrollHeight;
+                            messageDiv.innerHTML += currentContent;
+                        });
                     });
                 }
                 break;
@@ -218,7 +222,11 @@
                     document.getElementById("chat-" + JsonMessage.Chat.ChatID).classList.add("selected");
                     (document.getElementById("inputChatLink") as HTMLInputElement).value = location.origin + "/?chat=" + JsonMessage.Chat.ChatID;
                     Lettuce.Utilities.FadeOut(document.getElementById("divLogin"), true, function () {
-                        Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"));
+                        Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"), function () {
+                            var messageDiv = document.getElementById("divMessages");
+                            messageDiv.scrollTop = messageDiv.scrollHeight;
+                            messageDiv.innerHTML += currentContent;
+                        });
                     });
                 }
                 break;
@@ -345,7 +353,11 @@
                     
                     Lettuce.Default.HideLogin();
                     Lettuce.Utilities.FadeOut(document.getElementById("divLogin"), true, function () {
-                        Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"));
+                        Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"), function () {
+                            var messageDiv = document.getElementById("divMessages");
+                            messageDiv.scrollTop = messageDiv.scrollHeight;
+                            messageDiv.innerHTML += currentContent;
+                        });
                     });
                 }
                 break;
@@ -370,7 +382,11 @@
 
                     Lettuce.Default.HideLogin();
                     Lettuce.Utilities.FadeOut(document.getElementById("divLogin"), true, function () {
-                        Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"));
+                        Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"), function () {
+                            var messageDiv = document.getElementById("divMessages");
+                            messageDiv.scrollTop = messageDiv.scrollHeight;
+                            messageDiv.innerHTML += currentContent;
+                        });
                     });
                 }
                 break;

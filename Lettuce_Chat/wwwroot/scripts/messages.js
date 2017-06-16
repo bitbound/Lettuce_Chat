@@ -36,10 +36,10 @@ var Lettuce;
             Lettuce.Socket.send(JSON.stringify(request));
         }
         Messages.ChangeChat = ChangeChat;
-        function GetChatHistory(StartPoint) {
+        function GetChatHistory(StartDate) {
             var request = {
                 "Type": "GetChatHistory",
-                "Start": StartPoint
+                "Start": StartDate
             };
             Lettuce.Socket.send(JSON.stringify(request));
         }
@@ -151,7 +151,11 @@ var Lettuce;
                             document.getElementById("spanLogOut").removeAttribute("hidden");
                         }
                         Lettuce.Utilities.FadeOut(document.getElementById("divLogin"), true, function () {
-                            Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"));
+                            Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"), function () {
+                                var messageDiv = document.getElementById("divMessages");
+                                messageDiv.scrollTop = messageDiv.scrollHeight;
+                                messageDiv.innerHTML += currentContent;
+                            });
                         });
                     }
                     break;
@@ -230,7 +234,11 @@ var Lettuce;
                         document.getElementById("chat-" + JsonMessage.Chat.ChatID).classList.add("selected");
                         document.getElementById("inputChatLink").value = location.origin + "/?chat=" + JsonMessage.Chat.ChatID;
                         Lettuce.Utilities.FadeOut(document.getElementById("divLogin"), true, function () {
-                            Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"));
+                            Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"), function () {
+                                var messageDiv = document.getElementById("divMessages");
+                                messageDiv.scrollTop = messageDiv.scrollHeight;
+                                messageDiv.innerHTML += currentContent;
+                            });
                         });
                     }
                     break;
@@ -356,7 +364,11 @@ var Lettuce;
                         }
                         Lettuce.Default.HideLogin();
                         Lettuce.Utilities.FadeOut(document.getElementById("divLogin"), true, function () {
-                            Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"));
+                            Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"), function () {
+                                var messageDiv = document.getElementById("divMessages");
+                                messageDiv.scrollTop = messageDiv.scrollHeight;
+                                messageDiv.innerHTML += currentContent;
+                            });
                         });
                     }
                     break;
@@ -379,7 +391,11 @@ var Lettuce;
                         }
                         Lettuce.Default.HideLogin();
                         Lettuce.Utilities.FadeOut(document.getElementById("divLogin"), true, function () {
-                            Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"));
+                            Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"), function () {
+                                var messageDiv = document.getElementById("divMessages");
+                                messageDiv.scrollTop = messageDiv.scrollHeight;
+                                messageDiv.innerHTML += currentContent;
+                            });
                         });
                     }
                     break;
