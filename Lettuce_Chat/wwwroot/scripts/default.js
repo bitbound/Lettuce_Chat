@@ -13,7 +13,7 @@ var Lettuce;
         }
         Default.ToggleUsersMenu = ToggleUsersMenu;
         function ShowHelp() {
-            Lettuce.Utilities.ShowDialog("Help", "<ul><li>Right-click/long-press chats to edit</li><li>Type /? into chat for additional commands</li><li>Drag-and-drop files to upload</li></ul>", null);
+            Lettuce.Utilities.ShowDialog("Help", "<ul><li>Right-click/long-press chats to edit</li><li>Type /? into chat for additional commands</li><li>Drag-and-drop files to upload</li><li>Add to home screen from Chrome to create a native-like app</li></ul>", null);
         }
         Default.ShowHelp = ShowHelp;
         function ShowLogin() {

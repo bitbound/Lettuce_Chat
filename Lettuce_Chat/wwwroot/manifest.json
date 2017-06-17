@@ -1,0 +1,21 @@
+﻿{
+  "id":  "lettuce_chat",
+  "name": "Lettuce Chat",
+  "short_name": "Lettuce Chat",
+  "start_url": "https://lettuce-chat.azurewebsites.net",
+  "display": "standalone",
+  "background_color": "white",
+  "description": "Start instant, persistent chat sessions by sharing a link.",
+  "icons": [
+    {
+      "src": "https://lettuce-chat.azurewebsites.net/images/icons8-Lettuce-96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "play"
+    }
+  ]
+}

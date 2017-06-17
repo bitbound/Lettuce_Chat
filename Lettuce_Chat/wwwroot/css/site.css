@@ -334,6 +334,8 @@ input:hover {
     background-color: lightskyblue;
     margin: 5px 10px;
     padding: 10px 20px 20px 20px;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 .received-chat .arrow-left {
@@ -357,6 +359,8 @@ input:hover {
     background-color: lightgreen;
     margin: 5px 10px;
     padding: 10px 20px 20px 20px;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 .sent-chat .arrow-right {
@@ -439,6 +443,12 @@ input:hover {
 .dialog-button-frame button {
     padding: 5px 10px;
     margin-left: 15px;
+}
+.dialog-frame ul {
+    padding-left: 10px;
+}
+.dialog-frame li {
+    margin-bottom: 5px;
 }
 
 /*** Tooltip */
@@ -568,5 +578,8 @@ input:hover {
     }
     #inputChatLink {
         width: calc(100% - 25px);
+    }
+    .dialog-frame {
+        width: 90vw;
     }
 }

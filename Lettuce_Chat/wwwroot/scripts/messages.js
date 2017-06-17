@@ -154,7 +154,6 @@ var Lettuce;
                             Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"), function () {
                                 var messageDiv = document.getElementById("divMessages");
                                 messageDiv.scrollTop = messageDiv.scrollHeight;
-                                messageDiv.innerHTML += currentContent;
                             });
                         });
                     }
@@ -237,7 +236,6 @@ var Lettuce;
                             Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"), function () {
                                 var messageDiv = document.getElementById("divMessages");
                                 messageDiv.scrollTop = messageDiv.scrollHeight;
-                                messageDiv.innerHTML += currentContent;
                             });
                         });
                     }
@@ -367,7 +365,6 @@ var Lettuce;
                             Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"), function () {
                                 var messageDiv = document.getElementById("divMessages");
                                 messageDiv.scrollTop = messageDiv.scrollHeight;
-                                messageDiv.innerHTML += currentContent;
                             });
                         });
                     }
@@ -394,7 +391,6 @@ var Lettuce;
                             Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"), function () {
                                 var messageDiv = document.getElementById("divMessages");
                                 messageDiv.scrollTop = messageDiv.scrollHeight;
-                                messageDiv.innerHTML += currentContent;
                             });
                         });
                     }
