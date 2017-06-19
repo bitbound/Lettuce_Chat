@@ -334,8 +334,7 @@ input:hover {
     background-color: lightskyblue;
     margin: 5px 10px;
     padding: 10px 20px 20px 20px;
-    word-wrap: break-word;
-    word-break: break-all;
+    word-wrap: hyphenate;
 }
 
 .received-chat .arrow-left {
@@ -359,8 +358,7 @@ input:hover {
     background-color: lightgreen;
     margin: 5px 10px;
     padding: 10px 20px 20px 20px;
-    word-wrap: break-word;
-    word-break: break-all;
+    word-wrap: hyphenate;
 }
 
 .sent-chat .arrow-right {
