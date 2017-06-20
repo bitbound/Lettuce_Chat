@@ -155,7 +155,6 @@ namespace Lettuce_Chat.Classes
                     Type = "LoginElsewhere"
                 };
                 await existing.SendJSON(request);
-                await existing.Socket.CloseAsync(WebSocketCloseStatus.PolicyViolation, "Account logged in elsewhere.", CancellationToken.None);
             }
             AuthUser.AuthenticationTokens.Remove(JsonMessage.AuthenticationToken);
             AuthUser.AuthenticationTokens.Add(Guid.NewGuid().ToString());

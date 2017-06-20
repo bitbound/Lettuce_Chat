@@ -1,4 +1,5 @@
 ﻿namespace Lettuce {
+    export var LogoutExpected = false;
     export var Socket: WebSocket;
     export var Me = new Lettuce.Models.Me();
     export function Init() {
@@ -22,10 +23,16 @@
             }
         };
         Socket.onclose = function (e) {
-            Lettuce.Utilities.ShowDialog("Connection Closed", "Your connection has been closed.  Click OK to reconnect.", function () { location.reload() });
+            if (!LogoutExpected) {
+                Lettuce.Utilities.ShowDialog("Connection Closed", "Your connection has been closed.  Click OK to reconnect.", function () { location.reload() });
+            }
+            LogoutExpected = false;
         };
         Socket.onerror = function (e) {
-            Lettuce.Utilities.ShowDialog("Connection Closed", "Your connection has been closed.  Click OK to reconnect.", function () { location.reload() });
+            if (!LogoutExpected) {
+                Lettuce.Utilities.ShowDialog("Connection Closed", "Your connection has been closed.  Click OK to reconnect.", function () { location.reload() });
+            }
+            LogoutExpected = false;
         };
         Socket.onmessage = function (e) {
             var message = JSON.parse(e.data);

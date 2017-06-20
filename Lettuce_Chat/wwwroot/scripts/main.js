@@ -1,5 +1,6 @@
 var Lettuce;
 (function (Lettuce) {
+    Lettuce.LogoutExpected = false;
     Lettuce.Me = new Lettuce.Models.Me();
     function Init() {
         if (Lettuce.Socket != undefined && Lettuce.Socket.readyState != WebSocket.CLOSED) {
@@ -23,10 +24,16 @@ var Lettuce;
             }
         };
         Lettuce.Socket.onclose = function (e) {
-            Lettuce.Utilities.ShowDialog("Connection Closed", "Your connection has been closed.  Click OK to reconnect.", function () { location.reload(); });
+            if (!Lettuce.LogoutExpected) {
+                Lettuce.Utilities.ShowDialog("Connection Closed", "Your connection has been closed.  Click OK to reconnect.", function () { location.reload(); });
+            }
+            Lettuce.LogoutExpected = false;
         };
         Lettuce.Socket.onerror = function (e) {
-            Lettuce.Utilities.ShowDialog("Connection Closed", "Your connection has been closed.  Click OK to reconnect.", function () { location.reload(); });
+            if (!Lettuce.LogoutExpected) {
+                Lettuce.Utilities.ShowDialog("Connection Closed", "Your connection has been closed.  Click OK to reconnect.", function () { location.reload(); });
+            }
+            Lettuce.LogoutExpected = false;
         };
         Lettuce.Socket.onmessage = function (e) {
             var message = JSON.parse(e.data);

@@ -396,7 +396,9 @@ var Lettuce;
                     }
                     break;
                 case "LoginElsewhere":
+                    Lettuce.LogoutExpected = true;
                     Lettuce.Utilities.ShowDialog("Logged Out", "You've been logged out because your account was logged into from another location.", null);
+                    Lettuce.Socket.close();
                     break;
                 case "GetChatHistory":
                     var messageDiv = document.getElementById("divMessages");

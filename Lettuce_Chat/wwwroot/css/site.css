@@ -267,6 +267,7 @@ input:hover {
     height: 300px;
     overflow: auto;
     width: 100%;
+    max-width: calc(100vw - 30px);
 }
 
 .user-list-frame {
@@ -334,7 +335,8 @@ input:hover {
     background-color: lightskyblue;
     margin: 5px 10px;
     padding: 10px 20px 20px 20px;
-    word-wrap: hyphenate;
+    max-width: calc(100vw - 100px);
+    overflow: hidden;
 }
 
 .received-chat .arrow-left {
@@ -358,7 +360,8 @@ input:hover {
     background-color: lightgreen;
     margin: 5px 10px;
     padding: 10px 20px 20px 20px;
-    word-wrap: hyphenate;
+    max-width: calc(100vw - 100px);
+    overflow: hidden;
 }
 
 .sent-chat .arrow-right {
