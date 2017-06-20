@@ -747,9 +747,10 @@ namespace Lettuce_Chat.Classes
                             var request = new
                             {
                                 Type = "ChatUpdated",
-                                ChatID = chat.ChatID
+                                ChatID = chat.ChatID,
+                                ChatName = chat.ChatName
                             };
-                            var sockets = AllSockets.FindAll(sock => sock?.CurrentChat?.ChatID == chat.ChatID);
+                            var sockets = AllSockets.FindAll(sock => sock?.CurrentUser?.InvitedChats?.Contains(chat.ChatID) == true || sock?.CurrentUser?.OwnedChats?.Contains(chat.ChatID) == true || sock?.CurrentUser?.Username == chat.OwnerName);
                             foreach (var socket in sockets)
                             {
                                 await socket.SendJSON(request);

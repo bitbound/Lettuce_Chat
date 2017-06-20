@@ -314,7 +314,7 @@ var Lettuce;
                     }
                     break;
                 case "ChatUpdated":
-                    Lettuce.Messages.ChangeChat(JsonMessage.ChatID);
+                    document.getElementById("chat-" + JsonMessage.ChatID).innerHTML = JsonMessage.ChatName;
                     document.getElementById("divEditChatForm").setAttribute("hidden", "");
                     break;
                 case "LoginCheckUser":

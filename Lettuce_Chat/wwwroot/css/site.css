@@ -335,7 +335,7 @@ input:hover {
     background-color: lightskyblue;
     margin: 5px 10px;
     padding: 10px 20px 20px 20px;
-    max-width: calc(100vw - 100px);
+    max-width: calc(100vw - 250px);
     overflow: hidden;
 }
 
@@ -360,7 +360,7 @@ input:hover {
     background-color: lightgreen;
     margin: 5px 10px;
     padding: 10px 20px 20px 20px;
-    max-width: calc(100vw - 100px);
+    max-width: calc(100vw - 250px);
     overflow: hidden;
 }
 
@@ -545,6 +545,12 @@ input:hover {
     }
     #imgToggleUsers {
         display: unset;
+    }
+    .received-chat {
+        max-width: calc(100vw - 150px);
+    }
+    .sent-chat {
+        max-width: calc(100vw - 150px);
     }
     .user-list-frame {
         position: absolute;
