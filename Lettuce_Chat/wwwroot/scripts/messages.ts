@@ -279,6 +279,7 @@
                     }
                     document.getElementById("divEditChatForm").removeAttribute("hidden");
                     document.getElementById("divEditChatForm").style.opacity = "1";
+                    document.getElementById("divEditChatForm").style.display = "unset";
                     Lettuce.Default.ToggleMainMenu();
                 }
                 break;
