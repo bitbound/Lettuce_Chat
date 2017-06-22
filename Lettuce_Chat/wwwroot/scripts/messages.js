@@ -99,7 +99,7 @@ var Lettuce;
                     "ChatID": chatID
                 };
                 Lettuce.Socket.send(JSON.stringify(request));
-                document.getElementById("divEditChatForm").setAttribute("hidden", "");
+                document.getElementById("divEditChatForm").classList.add("hidden");
                 document.getElementById("chat-" + chatID).remove();
                 document.body.removeChild(e.currentTarget.parentElement.parentElement);
             };
@@ -147,8 +147,8 @@ var Lettuce;
                             Lettuce.Messages.ChangeChat(JsonMessage.Chats[0].ChatID);
                         }
                         if (JsonMessage.AccountType == 1) {
-                            document.getElementById("spanLogIn").setAttribute("hidden", "");
-                            document.getElementById("spanLogOut").removeAttribute("hidden");
+                            document.getElementById("spanLogIn").classList.add("hidden");
+                            document.getElementById("spanLogOut").classList.remove("hidden");
                         }
                         Lettuce.Utilities.FadeOut(document.getElementById("divLogin"), true, function () {
                             Lettuce.Utilities.FadeIn(document.getElementById("divChatFrame"), function () {
@@ -224,8 +224,8 @@ var Lettuce;
                         Lettuce.Me.DisplayName = JsonMessage.DisplayName;
                         Lettuce.Me.AuthenticationToken = JsonMessage.AuthenticationToken;
                         if (JsonMessage.AccountType == 1) {
-                            document.getElementById("spanLogIn").setAttribute("hidden", "");
-                            document.getElementById("spanLogOut").removeAttribute("hidden");
+                            document.getElementById("spanLogIn").classList.add("hidden", "");
+                            document.getElementById("spanLogOut").classList.remove("hidden");
                         }
                         for (var i = 0; i < JsonMessage.Chats.length; i++) {
                             Lettuce.Default.AddChat(JsonMessage.Chats[i]);
@@ -245,7 +245,7 @@ var Lettuce;
                     break;
                 case "Typing":
                     var statusDiv = document.getElementById("divStatus");
-                    statusDiv.removeAttribute("hidden");
+                    statusDiv.classList.remove("hidden");
                     statusDiv.style.opacity = "1";
                     document.getElementById("divStatus").innerHTML = JsonMessage.DisplayName + " is typing...";
                     if (window["TypingTimeout"]) {
@@ -288,9 +288,7 @@ var Lettuce;
                         else {
                             document.getElementById("toggleMemberOnly").setAttribute("on", "false");
                         }
-                        document.getElementById("divEditChatForm").removeAttribute("hidden");
-                        document.getElementById("divEditChatForm").style.opacity = "1";
-                        document.getElementById("divEditChatForm").style.display = "unset";
+                        document.getElementById("divEditChatForm").classList.remove("hidden");
                         Lettuce.Default.ToggleMainMenu();
                     }
                     break;
@@ -316,7 +314,7 @@ var Lettuce;
                     break;
                 case "ChatUpdated":
                     document.getElementById("chat-" + JsonMessage.ChatID).innerHTML = JsonMessage.ChatName;
-                    document.getElementById("divEditChatForm").setAttribute("hidden", "");
+                    document.getElementById("divEditChatForm").classList.add("hidden");
                     break;
                 case "LoginCheckUser":
                     if (JsonMessage.Status == true) {
@@ -358,8 +356,8 @@ var Lettuce;
                             document.getElementById("inputChatLink").value = location.origin + "/?chat=" + JsonMessage.Chats[0].ChatID;
                         }
                         if (JsonMessage.AccountType == 1) {
-                            document.getElementById("spanLogIn").setAttribute("hidden", "");
-                            document.getElementById("spanLogOut").removeAttribute("hidden");
+                            document.getElementById("spanLogIn").classList.add("hidden");
+                            document.getElementById("spanLogOut").classList.remove("hidden");
                         }
                         Lettuce.Default.HideLogin();
                         Lettuce.Utilities.FadeOut(document.getElementById("divLogin"), true, function () {
@@ -384,8 +382,8 @@ var Lettuce;
                             document.getElementById("inputChatLink").value = location.origin + "/?chat=" + JsonMessage.Chats[0].ChatID;
                         }
                         if (JsonMessage.AccountType == 1) {
-                            document.getElementById("spanLogIn").setAttribute("hidden", "");
-                            document.getElementById("spanLogOut").removeAttribute("hidden");
+                            document.getElementById("spanLogIn").classList.add("hidden");
+                            document.getElementById("spanLogOut").classList.remove("hidden");
                         }
                         Lettuce.Default.HideLogin();
                         Lettuce.Utilities.FadeOut(document.getElementById("divLogin"), true, function () {
@@ -420,7 +418,7 @@ var Lettuce;
                         Lettuce.Utilities.ShowDialog("Deletion Failed", "Failed to delete chat.  Try again in a moment.", null);
                     }
                     else if (JsonMessage.Status == "ok") {
-                        document.getElementById("divEditChatForm").setAttribute("hidden", "");
+                        document.getElementById("divEditChatForm").classList.add("hidden");
                         if (document.getElementById("chat-" + JsonMessage.ChatID)) {
                             document.getElementById("chat-" + JsonMessage.ChatID).remove();
                         }

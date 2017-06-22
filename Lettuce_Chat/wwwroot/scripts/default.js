@@ -32,9 +32,9 @@ var Lettuce;
             var pw2 = document.getElementById("inputLoginConfirmPassword");
             login.readOnly = false;
             login.value = "";
-            pw.parentElement.setAttribute("hidden", "");
+            pw.parentElement.classList.add("hidden");
             pw.value = "";
-            pw2.parentElement.setAttribute("hidden", "");
+            pw2.parentElement.classList.add("hidden");
             pw2.value = "";
             Lettuce.Utilities.FadeOut(form, true);
         }
@@ -49,7 +49,7 @@ var Lettuce;
             var login = document.getElementById("inputLoginUsername");
             var pw = document.getElementById("inputLoginPassword");
             var pw2 = document.getElementById("inputLoginConfirmPassword");
-            if (pw.parentElement.hasAttribute("hidden")) {
+            if (pw.parentElement.classList.contains("hidden")) {
                 if (login.value.length == 0) {
                     Lettuce.Utilities.ShowTooltip("You must enter a user name.", "black");
                     return;
@@ -60,7 +60,7 @@ var Lettuce;
                 };
                 Lettuce.Socket.send(JSON.stringify(request));
             }
-            else if (!pw.parentElement.hasAttribute("hidden") && pw2.parentElement.hasAttribute("hidden")) {
+            else if (!pw.parentElement.classList.contains("hidden") && pw2.parentElement.classList.contains("hidden")) {
                 if (pw.value.length == 0) {
                     Lettuce.Utilities.ShowTooltip("You must enter your password.", "black");
                     return;
@@ -72,7 +72,7 @@ var Lettuce;
                 };
                 Lettuce.Socket.send(JSON.stringify(request2));
             }
-            else if (!pw.parentElement.hasAttribute("hidden") && !pw2.parentElement.hasAttribute("hidden")) {
+            else if (!pw.parentElement.classList.contains("hidden") && !pw2.parentElement.classList.contains("hidden")) {
                 if (pw.value.length == 0) {
                     Lettuce.Utilities.ShowTooltip("You must enter your password.", "black");
                     return;

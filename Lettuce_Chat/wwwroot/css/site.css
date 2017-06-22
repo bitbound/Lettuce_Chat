@@ -36,6 +36,9 @@ input:hover {
     cursor: pointer;
     font-size: .9em;
 }
+.hidden {
+    display: none !important;
+}
 
 /*** Banner ***/
 .banner-top {

@@ -55,14 +55,13 @@ var Lettuce;
         }
         Utilities.ShowDialogEx = ShowDialogEx;
         function FadeIn(Elem, Callback) {
-            if (Elem.hasAttribute("hidden")) {
-                Elem.removeAttribute("hidden");
+            if (Elem.classList.contains("hidden")) {
+                Elem.classList.remove("hidden");
             }
             if (!Elem.style.opacity) {
                 Elem.style.opacity = "0";
             }
             Elem.style.opacity = String(Number(Elem.style.opacity) + .01);
-            Elem.style.display = "unset";
             if (Number(Elem.style.opacity) < 1) {
                 window.setTimeout(() => {
                     FadeIn(Elem, Callback);
@@ -87,7 +86,7 @@ var Lettuce;
             }
             else {
                 if (HideAfter) {
-                    Elem.setAttribute("hidden", "");
+                    Elem.classList.add("hidden");
                 }
                 if (Callback) {
                     Callback();

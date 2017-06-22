@@ -27,7 +27,7 @@
         <input id="inputMyDisplayName" maxlength="20" onblur="Lettuce.Messages.UpdateDisplayName()" />
         <br />
         <span id="spanLogIn" class="link" onclick="Lettuce.Default.ShowLogin()">Log In</span>
-        <span id="spanLogOut" class="link" onclick="Lettuce.Default.LogOut()" hidden>Log Out</span>
+        <span id="spanLogOut" class="link hidden" onclick="Lettuce.Default.LogOut()">Log Out</span>
         <br />
         <br />
         <br />
@@ -90,7 +90,7 @@
             </div>
         </div>
     </div>
-    <div id="divChatFrame" hidden class="chat-frame" ondragover="Lettuce.Default.DragOverChat(event)" ondrop="Lettuce.Default.DropOnChat(event)">
+    <div id="divChatFrame" class="chat-frame hidden" ondragover="Lettuce.Default.DragOverChat(event)" ondrop="Lettuce.Default.DropOnChat(event)">
         <table>
             <tr>
                 <td colspan="2">
@@ -141,13 +141,13 @@
                     <div>
                         <button id="buttonSend" onclick="Lettuce.Default.SubmitMessage(event)">Send</button>
                         <img id="imgUpload" src="~/images/icons8-Upload-80.png" onclick='document.getElementById("inputFileUpload").click()' title="Upload File" />
-                        <input id="inputFileUpload" type="file" hidden multiple onchange='Lettuce.Default.TransferFile(this.files);' />
+                        <input id="inputFileUpload" type="file" class="hidden" multiple onchange='Lettuce.Default.TransferFile(this.files);' />
                     </div>
                 </td>
             </tr>
         </table>
     </div>
-    <div id="divLoginForm" class="dialog-frame hidden" hidden>
+    <div id="divLoginForm" class="dialog-frame hidden">
         <div class="dialog-title-frame">
             <div class="dialog-title-content">
                 Log In or Sign Up
@@ -157,12 +157,12 @@
             <label>User Name:</label>
             <br />
             <input type="text" id="inputLoginUsername" onkeypress="Lettuce.Default.EvalLoginKey(event)" maxlength="20" />
-            <div id="divLoginPassword" hidden>
+            <div id="divLoginPassword" class="hidden">
                 <label>Password:</label>
                 <br />
                 <input type="password" id="inputLoginPassword" onkeypress="Lettuce.Default.EvalLoginKey(event)" maxlength="30" />
             </div>
-            <div id="divLoginConfirmPassword" hidden>
+            <div id="divLoginConfirmPassword" class="hidden">
                 <label>Confirm Password:</label>
                 <br />
                 <input type="password" id="inputLoginConfirmPassword" onkeypress="Lettuce.Default.EvalLoginKey(event)" maxlength="30" />
@@ -173,7 +173,7 @@
             <button onclick="Lettuce.Default.HideLogin()">Cancel</button>
         </div>
     </div>
-    <div id="divEditChatForm" class="dialog-frame hidden" hidden>
+    <div id="divEditChatForm" class="dialog-frame hidden">
         <div class="dialog-title-frame">
             <div class="dialog-title-content">
                 Edit Chat
@@ -265,7 +265,7 @@
         </div>
         <div class="dialog-button-frame">
             <button onclick="Lettuce.Default.SaveChatEdit()">Save</button>
-            <button onclick="document.getElementById('divEditChatForm').setAttribute('hidden', '')">Cancel</button>
+            <button onclick="document.getElementById('divEditChatForm').classList.add('hidden')">Cancel</button>
         </div>
     </div>
     <hr style="margin-top: 20px" />
