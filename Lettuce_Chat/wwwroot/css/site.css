@@ -267,7 +267,8 @@ input:hover {
     border: 1px solid dimgray;
     border-radius: 5px;
     background-color: whitesmoke;
-    height: 300px;
+    min-height: 300px;
+    height: calc(100vh - 300px);
     overflow: auto;
     width: 100%;
     max-width: calc(100vw - 30px);
@@ -279,7 +280,8 @@ input:hover {
     border: 1px solid dimgray;
     border-radius: 5px;
     background-color: whitesmoke;
-    height: 300px;
+    min-height: 300px;
+    height: calc(100vh - 300px);
     overflow: auto;
     width: 100%;
 }

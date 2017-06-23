@@ -227,7 +227,9 @@
     export function Paste(e) {
         if (e.clipboardData.items.length > 0) {
             var file = e.clipboardData.items[0].getAsFile();
-            TransferFile([file]);
+            if (file != null) {
+                TransferFile([file]);
+            }
         }
     }
     export function TransferFile(e) {

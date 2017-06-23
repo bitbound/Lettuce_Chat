@@ -426,6 +426,7 @@
                 messageDiv.scrollTop = messageDiv.scrollHeight;
                 break;
             case "AccountDeleted":
+                Lettuce.Me.ClearCreds();
                 window.setTimeout(function () {
                     Lettuce.Utilities.ShowDialog("Account Deleted", "Your account has been deleted.", function () { location.reload(); })
                 }, 500);

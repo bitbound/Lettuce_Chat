@@ -345,6 +345,8 @@ namespace Lettuce_Chat.Classes
                     };
                     await SendJSON(request);
                     await Socket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Account deleted.", CancellationToken.None);
+                    await LeaveChat(CurrentChat);
+                    await SendUserListUpdate(CurrentChat);
                 }
                 catch
                 {
@@ -361,6 +363,7 @@ namespace Lettuce_Chat.Classes
             {
                 CurrentUser.InvitedChats.RemoveAll(chat => chat == CurrentChat?.ChatID);
                 CurrentUser.OwnedChats.RemoveAll(chat => chat == CurrentChat?.ChatID);
+                var oldChat = CurrentChat;
                 CurrentChat = null;
                 CurrentUser.Save();
                 var request = new
@@ -368,6 +371,8 @@ namespace Lettuce_Chat.Classes
                     Type = "ExitChat"
                 };
                 await SendJSON(request);
+                await LeaveChat(oldChat);
+                await SendUserListUpdate(oldChat);
             }
             else if (command.StartsWith("password"))
             {
