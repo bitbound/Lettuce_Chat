@@ -23,7 +23,7 @@ namespace Lettuce_Chat.Controllers
         [HttpGet]
         public IActionResult Download()
         {
-            var di = Directory.CreateDirectory(Path.Combine(Env.ContentRootPath, "File_Transfers"));
+            var di = Directory.CreateDirectory(Path.Combine(Env.ContentRootPath, "Data\\File_Transfers"));
             foreach (var file in di.GetFiles())
             {
                 if (DateTime.Now - file.CreationTime > TimeSpan.FromDays(7))
@@ -43,11 +43,10 @@ namespace Lettuce_Chat.Controllers
             Response.Headers.Add("Content-Disposition", new Microsoft.Extensions.Primitives.StringValues($"attachment; filename=\"{fileName}\""));
             string contentType;
             new FileExtensionContentTypeProvider().TryGetContentType(fileName, out contentType);
-            Response.ContentType = contentType ?? "application/octet-stream";
-            var filePath = Path.Combine(Env.ContentRootPath, "File_Transfers", fileName);
+            var filePath = Path.Combine(Env.ContentRootPath, "Data\\File_Transfers", fileName);
             if (System.IO.File.Exists(filePath))
             {
-                return new FileContentResult(System.IO.File.ReadAllBytes(filePath), contentType);
+                return new FileContentResult(System.IO.File.ReadAllBytes(filePath), Microsoft.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/octet-stream"));
             }
             else
             {
@@ -58,7 +57,7 @@ namespace Lettuce_Chat.Controllers
         [HttpPost]
         public IActionResult Upload(ICollection<IFormFile> Files)
         {
-            var di = Directory.CreateDirectory(Path.Combine(Env.ContentRootPath, "File_Transfers"));
+            var di = Directory.CreateDirectory(Path.Combine(Env.ContentRootPath, "Data\\File_Transfers"));
             var fileList = Request.Form.Files.ToList();
             foreach (var file in fileList)
             {

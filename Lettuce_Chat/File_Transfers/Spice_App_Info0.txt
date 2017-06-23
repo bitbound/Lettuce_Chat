@@ -1,8 +1,0 @@
-Success-icon
-Success!
-
-Your App Secret has been successfully generated. Please record the information below in a private location.
-
-App Secret: adaed2beff62419853ad2ec74cb24fa03b9bb32f5a61c60f051592921dc99f5e
-
-App ID: 8f99fd4fbc0806505cbf4423c39767cd9b4657052010131b073fbdd8eca6babd

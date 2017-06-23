@@ -404,11 +404,7 @@ var Lettuce;
                     var currentContent = messageDiv.innerHTML;
                     messageDiv.innerHTML = "";
                     for (var i = 0; i < JsonMessage.Messages.length; i++) {
-                        var message = JsonMessage.Messages[i];
-                        var receivedChat = document.createElement("div");
-                        receivedChat.classList.add("received-chat");
-                        receivedChat.innerHTML = '<div class="arrow-left"></div><div class="chat-message-header">' + message.DisplayName + ' at ' + new Date(Date.parse(message.TimeStamp)).toLocaleString() + "</div>" + atob(message.Message);
-                        messageDiv.appendChild(receivedChat);
+                        Lettuce.Default.AddMessage(JsonMessage.Messages[i]);
                     }
                     messageDiv.scrollTop = messageDiv.scrollHeight;
                     messageDiv.innerHTML += currentContent;

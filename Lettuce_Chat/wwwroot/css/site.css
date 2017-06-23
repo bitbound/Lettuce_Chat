@@ -339,7 +339,6 @@ input:hover {
     margin: 5px 10px;
     padding: 10px 20px 20px 20px;
     max-width: calc(100vw - 250px);
-    overflow: hidden;
 }
 
 .received-chat .arrow-left {
@@ -364,6 +363,8 @@ input:hover {
     margin: 5px 10px;
     padding: 10px 20px 20px 20px;
     max-width: calc(100vw - 250px);
+}
+.chat-message-content {
     overflow: hidden;
 }
 

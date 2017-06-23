@@ -605,6 +605,7 @@ namespace Lettuce_Chat.Classes
                             }
                             jsonMessage.DateTime = DateTime.Now.ToString();
                             jsonMessage.DisplayName = CurrentUser.DisplayName;
+                            jsonMessage.Username = CurrentUser.Username;
                             await BroadcastMessage(jsonMessage);
                             var di = Directory.CreateDirectory(Path.Combine(Utilities.RootPath, "Data", "Messages"));
                             var strPath = Path.Combine(di.FullName, CurrentChat.ChatID + ".txt");

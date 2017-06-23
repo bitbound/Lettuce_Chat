@@ -269,7 +269,7 @@
         if (!message.startsWith("/")) {
             var sentChat = document.createElement("div");
             sentChat.classList.add("sent-chat");
-            sentChat.innerHTML = '<div class="arrow-right"></div><div class="chat-message-header">You at ' + new Date().toLocaleTimeString() + "</div>" + message;
+            sentChat.innerHTML = '<div class="arrow-right"></div><div class="chat-message-header">You at ' + new Date().toLocaleTimeString() + "</div><div class='chat-message-content'>" + message + "</div>";
             var messageDiv = document.getElementById("divMessages");
             messageDiv.appendChild(sentChat);
             messageDiv.scrollTop = messageDiv.scrollHeight;
@@ -283,8 +283,16 @@
     }
     export function AddMessage(Message: any) {
         var receivedChat = document.createElement("div");
-        receivedChat.classList.add("received-chat");
-        receivedChat.innerHTML = '<div class="arrow-left"></div><div class="chat-message-header">' + Message.DisplayName + ' at ' + new Date().toLocaleTimeString() + "</div>" + atob(Message.Message);
+        if (Message.Username == Lettuce.Me.Username) {
+            receivedChat.classList.add("sent-chat");
+            receivedChat.innerHTML = '<div class="arrow-right"></div>';
+        }
+        else 
+        {
+            receivedChat.classList.add("received-chat");
+            receivedChat.innerHTML = '<div class="arrow-left"></div>';
+        }
+        receivedChat.innerHTML += '<div class="chat-message-header">' + Message.DisplayName + ' at ' + new Date().toLocaleTimeString() + "</div><div class='chat-message-content'>" + atob(Message.Message) + "</div>";
         var messageDiv = document.getElementById("divMessages");
         messageDiv.appendChild(receivedChat);
         messageDiv.scrollTop = messageDiv.scrollHeight;
