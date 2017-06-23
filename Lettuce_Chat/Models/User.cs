@@ -25,6 +25,7 @@ namespace Lettuce_Chat.Models
             OwnedChats = OwnedChats.Distinct().ToList();
             InvitedChats.RemoveAll(chat => !Chat.Exists(chat));
             OwnedChats.RemoveAll(chat => !Chat.Exists(chat));
+            InvitedChats.RemoveAll(chat => OwnedChats.Contains(chat));
             var di = Directory.CreateDirectory(Path.Combine(Utilities.RootPath, "Data", "Users"));
             File.WriteAllText(Path.Combine(di.FullName, Username + ".json"), JsonConvert.SerializeObject(this));
         }

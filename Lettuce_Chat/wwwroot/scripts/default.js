@@ -285,7 +285,7 @@ var Lettuce;
             if (!message.startsWith("/")) {
                 var sentChat = document.createElement("div");
                 sentChat.classList.add("sent-chat");
-                sentChat.innerHTML = '<div class="arrow-right"></div><div class="chat-message-header">You at ' + new Date().toLocaleTimeString() + "</div><div class='chat-message-content'>" + message + "</div>";
+                sentChat.innerHTML = '<div class="arrow-right"></div><div class="chat-message-header">You at ' + new Date().toLocaleString() + "</div><div class='chat-message-content'>" + message + "</div>";
                 var messageDiv = document.getElementById("divMessages");
                 messageDiv.appendChild(sentChat);
                 messageDiv.scrollTop = messageDiv.scrollHeight;
@@ -299,6 +299,8 @@ var Lettuce;
         }
         Default.SubmitMessage = SubmitMessage;
         function AddMessage(Message) {
+            var messageDiv = document.getElementById("divMessages");
+            var shouldScroll = messageDiv.scrollHeight - messageDiv.clientHeight == messageDiv.scrollTop;
             var receivedChat = document.createElement("div");
             if (Message.Username == Lettuce.Me.Username) {
                 receivedChat.classList.add("sent-chat");
@@ -308,10 +310,31 @@ var Lettuce;
                 receivedChat.classList.add("received-chat");
                 receivedChat.innerHTML = '<div class="arrow-left"></div>';
             }
-            receivedChat.innerHTML += '<div class="chat-message-header">' + Message.DisplayName + ' at ' + new Date().toLocaleTimeString() + "</div><div class='chat-message-content'>" + atob(Message.Message) + "</div>";
-            var messageDiv = document.getElementById("divMessages");
+            receivedChat.innerHTML += '<div class="chat-message-header">' + Message.DisplayName + ' at ' + new Date(Date.parse(Message.TimeStamp)).toLocaleString() + "</div><div class='chat-message-content'>" + atob(Message.Message) + "</div>";
             messageDiv.appendChild(receivedChat);
-            messageDiv.scrollTop = messageDiv.scrollHeight;
+            if (shouldScroll) {
+                messageDiv.scrollTop = messageDiv.scrollHeight;
+            }
+            if (!Lettuce.IsFocused) {
+                Lettuce.UnreadMessageCount++;
+                if (Lettuce.UnreadMessageInterval == -1) {
+                    Lettuce.UnreadMessageInterval = window.setInterval(function () {
+                        if (Lettuce.UnreadMessageCount == 0) {
+                            window.clearInterval(Lettuce.UnreadMessageInterval);
+                            document.title = "Lettuce Chat";
+                            Lettuce.UnreadMessageInterval = -1;
+                            return;
+                        }
+                        if (document.title[0] == "(") {
+                            document.title = "Lettuce Chat";
+                        }
+                        else {
+                            document.title = "(" + Lettuce.UnreadMessageCount + ") Lettuce Chat";
+                        }
+                    }, 1000);
+                    window.speechSynthesis.speak(new SpeechSynthesisUtterance("New message!"));
+                }
+            }
         }
         Default.AddMessage = AddMessage;
         function InputKeyDown(e) {

@@ -2,11 +2,22 @@
     export var LogoutExpected = false;
     export var Socket: WebSocket;
     export var Me = new Lettuce.Models.Me();
+    export var IsFocused = true;
+    export var UnreadMessageCount = 0;
+    export var UnreadMessageInterval = -1;
     export function Init() {
         if (Socket != undefined && Socket.readyState != WebSocket.CLOSED) {
             throw "WebSocket already exists and is not closed.";
         }
         Socket = new WebSocket(location.origin.replace("http", "ws") + "/Socket");
+        window.onblur = function () {
+            Lettuce.IsFocused = false;
+        }
+        window.onfocus = function () {
+            Lettuce.IsFocused = true;
+            Lettuce.UnreadMessageCount = 0;
+            document.title = "Lettuce Chat";
+        }
         SetHandlers();
     }
     export function SetHandlers() {

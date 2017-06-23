@@ -2,11 +2,22 @@ var Lettuce;
 (function (Lettuce) {
     Lettuce.LogoutExpected = false;
     Lettuce.Me = new Lettuce.Models.Me();
+    Lettuce.IsFocused = true;
+    Lettuce.UnreadMessageCount = 0;
+    Lettuce.UnreadMessageInterval = -1;
     function Init() {
         if (Lettuce.Socket != undefined && Lettuce.Socket.readyState != WebSocket.CLOSED) {
             throw "WebSocket already exists and is not closed.";
         }
         Lettuce.Socket = new WebSocket(location.origin.replace("http", "ws") + "/Socket");
+        window.onblur = function () {
+            Lettuce.IsFocused = false;
+        };
+        window.onfocus = function () {
+            Lettuce.IsFocused = true;
+            Lettuce.UnreadMessageCount = 0;
+            document.title = "Lettuce Chat";
+        };
         SetHandlers();
     }
     Lettuce.Init = Init;

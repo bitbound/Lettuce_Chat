@@ -397,6 +397,7 @@
                 for (var i = 0; i < JsonMessage.Messages.length; i++){
                     Lettuce.Default.AddMessage(JsonMessage.Messages[i]);
                 }
+
                 messageDiv.scrollTop = messageDiv.scrollHeight;
                 messageDiv.innerHTML += currentContent;
                 break;
