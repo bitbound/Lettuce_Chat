@@ -603,7 +603,7 @@ namespace Lettuce_Chat.Classes
                                 await ParseCommand(unencoded);
                                 return;
                             }
-                            jsonMessage.DateTime = DateTime.Now.ToString();
+                            jsonMessage.TimeStamp = DateTime.Now;
                             jsonMessage.DisplayName = CurrentUser.DisplayName;
                             jsonMessage.Username = CurrentUser.Username;
                             await BroadcastMessage(jsonMessage);
