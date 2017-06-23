@@ -147,15 +147,6 @@ namespace Lettuce_Chat.Classes
                 await SendJSON(JsonMessage);
                 return false;
             }
-            if (AllSockets.Exists(sock=>sock?.CurrentUser?.Username == AuthUser.Username))
-            {
-                var existing = AllSockets.Find(sock => sock.CurrentUser.Username == AuthUser.Username);
-                var request = new
-                {
-                    Type = "LoginElsewhere"
-                };
-                await existing.SendJSON(request);
-            }
             AuthUser.AuthenticationTokens.Remove(JsonMessage.AuthenticationToken);
             AuthUser.AuthenticationTokens.Add(Guid.NewGuid().ToString());
             AuthUser.Save();
