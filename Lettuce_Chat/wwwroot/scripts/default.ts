@@ -224,6 +224,12 @@
         }
         TransferFile(e.dataTransfer.files);
     }
+    export function Paste(e) {
+        if (e.clipboardData.items.length > 0) {
+            var file = e.clipboardData.items[0].getAsFile();
+            TransferFile([file]);
+        }
+    }
     export function TransferFile(e) {
         for (var i = 0; i < e.length; i++) {
             document.getElementById("divStatus").innerHTML = "Uploading file...";

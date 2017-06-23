@@ -241,6 +241,13 @@ var Lettuce;
             TransferFile(e.dataTransfer.files);
         }
         Default.DropOnChat = DropOnChat;
+        function Paste(e) {
+            if (e.clipboardData.items.length > 0) {
+                var file = e.clipboardData.items[0].getAsFile();
+                TransferFile([file]);
+            }
+        }
+        Default.Paste = Paste;
         function TransferFile(e) {
             for (var i = 0; i < e.length; i++) {
                 document.getElementById("divStatus").innerHTML = "Uploading file...";
