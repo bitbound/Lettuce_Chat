@@ -224,7 +224,7 @@ var Lettuce;
                         Lettuce.Me.DisplayName = JsonMessage.DisplayName;
                         Lettuce.Me.AuthenticationToken = JsonMessage.AuthenticationToken;
                         if (JsonMessage.AccountType == 1) {
-                            document.getElementById("spanLogIn").classList.add("hidden", "");
+                            document.getElementById("spanLogIn").classList.add("hidden");
                             document.getElementById("spanLogOut").classList.remove("hidden");
                         }
                         for (var i = 0; i < JsonMessage.Chats.length; i++) {
