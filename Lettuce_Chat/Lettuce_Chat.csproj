@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -17,12 +18,17 @@
     <PackageLicenseUrl>https://github.com/Jay-Rad/Lettuce_Chat/blob/master/License.txt</PackageLicenseUrl>
     <PackageIconUrl>https://github.com/Jay-Rad/Lettuce_Chat/blob/master/Lettuce_Chat/wwwroot/images/icons8-Lettuce-96.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/Jay-Rad/Lettuce_Chat</RepositoryUrl>
-    <PostBuildEvent></PostBuildEvent>
+    <PostBuildEvent>rd /s /q $(OutDir)</PostBuildEvent>
     <PreBuildEvent></PreBuildEvent>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Properties\PublishProfiles\Lettuce-Chat - FTP.pubxml" />
+    <None Remove="Properties\PublishProfiles\Lettuce-Chat - Web Deploy.pubxml" />
+  </ItemGroup>
+
+  <!--<ItemGroup>
     <Content Include="wwwroot\favicon.ico" />
     <Content Include="wwwroot\images\icons8-Help-80.png" />
     <Content Include="wwwroot\images\icons8-Lettuce-96.png" />
@@ -42,7 +48,7 @@
     <Content Include="wwwroot\scripts\Models\user.ts" />
     <Content Include="wwwroot\scripts\messages.ts" />
     <Content Include="wwwroot\scripts\utilities.ts" />
-  </ItemGroup>
+  </ItemGroup>-->
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
@@ -55,6 +61,15 @@
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data\Chats\" />
+    <Folder Include="Data\File_Transfers\" />
+    <Folder Include="Data\Logs\" />
+    <Folder Include="Data\Messages\" />
+    <Folder Include="Data\Users\" />
+    <Folder Include="Properties\PublishProfiles\" />
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
 
 </Project>

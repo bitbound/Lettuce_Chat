@@ -47,13 +47,13 @@ namespace Lettuce_Chat
             else
             {
                 app.UseExceptionHandler("/Default/Error");
-                app.Use((context, next) => {
-                    if (!context.Request.IsHttps && context.Request.Host.Value != "localhost:23235")
-                    {
-                        context.Response.Redirect($"https://{context.Request.Host}/");
-                    }
-                    return next();
-                });
+                //app.Use((context, next) => {
+                //    if (!context.Request.IsHttps && context.Request.Host.Value != "localhost:23235")
+                //    {
+                //        context.Response.Redirect($"https://{context.Request.Host}/");
+                //    }
+                //    return next();
+                //});
             }
             Utilities.RootPath = env.ContentRootPath;
             app.UseStaticFiles();
