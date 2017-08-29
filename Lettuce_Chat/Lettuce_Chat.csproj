@@ -63,11 +63,6 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Data\Chats\" />
-    <Folder Include="Data\File_Transfers\" />
-    <Folder Include="Data\Logs\" />
-    <Folder Include="Data\Messages\" />
-    <Folder Include="Data\Users\" />
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>

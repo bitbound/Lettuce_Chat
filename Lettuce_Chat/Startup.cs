@@ -47,6 +47,7 @@ namespace Lettuce_Chat
             else
             {
                 app.UseExceptionHandler("/Default/Error");
+                // Uncomment to enforce HTTPS.
                 //app.Use((context, next) => {
                 //    if (!context.Request.IsHttps && context.Request.Host.Value != "localhost:23235")
                 //    {
@@ -55,7 +56,7 @@ namespace Lettuce_Chat
                 //    return next();
                 //});
             }
-            Utilities.RootPath = env.ContentRootPath;
+            Utilities.RootPath = System.IO.Path.Combine(env.ContentRootPath, "wwwroot");
             app.UseStaticFiles();
             var webSocketOptions = new WebSocketOptions()
             {
