@@ -54,12 +54,16 @@ namespace Lettuce_Chat
             Utilities.RootPath = System.IO.Path.Combine(env.ContentRootPath, "wwwroot");
             app.UseStaticFiles();
             // Needed for Let's Encrypt.
-            app.UseStaticFiles(new StaticFileOptions
+            if (Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), @".well-known")))
             {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @".well-known")),
-                RequestPath = new PathString("/.well-known"),
-                ServeUnknownFileTypes = true
-            });
+                app.UseStaticFiles(new StaticFileOptions
+                {
+                    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @".well-known")),
+                    RequestPath = new PathString("/.well-known"),
+                    ServeUnknownFileTypes = true
+                });
+            }
+
             var webSocketOptions = new WebSocketOptions()
             {
                 ReceiveBufferSize = 10 * 1024
