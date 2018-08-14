@@ -9,6 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Lettuce_Chat.Classes;
 using System.Net.WebSockets;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace Lettuce_Chat
 {
@@ -47,17 +50,16 @@ namespace Lettuce_Chat
             else
             {
                 app.UseExceptionHandler("/Default/Error");
-                // Uncomment to enforce HTTPS.
-                //app.Use((context, next) => {
-                //    if (!context.Request.IsHttps && context.Request.Host.Value != "localhost:23235")
-                //    {
-                //        context.Response.Redirect($"https://{context.Request.Host}/");
-                //    }
-                //    return next();
-                //});
             }
             Utilities.RootPath = System.IO.Path.Combine(env.ContentRootPath, "wwwroot");
             app.UseStaticFiles();
+            // Needed for Let's Encrypt.
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @".well-known")),
+                RequestPath = new PathString("/.well-known"),
+                ServeUnknownFileTypes = true
+            });
             var webSocketOptions = new WebSocketOptions()
             {
                 ReceiveBufferSize = 10 * 1024

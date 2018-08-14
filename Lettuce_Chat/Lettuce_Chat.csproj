@@ -18,7 +18,6 @@
     <PackageLicenseUrl>https://github.com/Jay-Rad/Lettuce_Chat/blob/master/License.txt</PackageLicenseUrl>
     <PackageIconUrl>https://github.com/Jay-Rad/Lettuce_Chat/blob/master/Lettuce_Chat/wwwroot/images/icons8-Lettuce-96.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/Jay-Rad/Lettuce_Chat</RepositoryUrl>
-    <PostBuildEvent>rd /s /q $(OutDir)</PostBuildEvent>
     <PreBuildEvent></PreBuildEvent>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
