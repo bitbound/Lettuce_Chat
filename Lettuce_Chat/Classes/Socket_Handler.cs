@@ -27,19 +27,19 @@ namespace Lettuce_Chat.Classes
         public WebSocket Socket { get; set; }
         private List<ArraySegment<byte>> SendBuffer { get; set; } = new List<ArraySegment<byte>>();
 
-        public async Task HandleSocket(HttpContext Context, WebSocket WS)
+        public async Task HandleSocket(HttpContext context, WebSocket ws)
         {
             try
             {
                 AllSockets.Add(this);
-                Socket = WS;
+                Socket = ws;
                 var buffer = new byte[1024 * 10];
-                WebSocketReceiveResult result = await WS.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                WebSocketReceiveResult result = await ws.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
                 await ParseMessage(result, buffer);
                 while (!Socket.CloseStatus.HasValue)
                 {
                     buffer = new byte[1024 * 10];
-                    result = await WS.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                    result = await ws.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
                     await ParseMessage(result, buffer);
                 }
                 if (AllSockets.Contains(this))
@@ -51,7 +51,7 @@ namespace Lettuce_Chat.Classes
                     await LeaveChat(CurrentChat);
                     await SendUserListUpdate(CurrentChat);
                 }
-                await WS.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
+                await ws.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
             }
             catch (Exception Ex)
             {
@@ -67,9 +67,9 @@ namespace Lettuce_Chat.Classes
                 Utilities.WriteToLog(Ex);
             }
         }
-        public async Task SendJSON(dynamic JsonRequest)
+        public async Task SendJSON(dynamic json)
         {
-            var jsonRequest = JsonConvert.SerializeObject(JsonRequest);
+            var jsonRequest = JsonConvert.SerializeObject(json);
             var outBuffer = new ArraySegment<byte>(Encoding.UTF8.GetBytes(jsonRequest));
             SendBuffer.Add(outBuffer);
             if (SendBuffer.Count > 1)
@@ -94,63 +94,63 @@ namespace Lettuce_Chat.Classes
                 }
             }
         }
-        public async Task<bool> AuthenticateUser(User AuthUser, dynamic JsonMessage)
+        public async Task<bool> AuthenticateUser(User authUser, dynamic jsonMessage)
         {
-            if (AuthUser == null)
+            if (authUser == null)
             {
-                JsonMessage.Status = "not found";
-                await SendJSON(JsonMessage);
+                jsonMessage.Status = "not found";
+                await SendJSON(jsonMessage);
                 return false;
             }
             
-            if (AuthUser.BadLoginAttempts >= 3)
+            if (authUser.BadLoginAttempts >= 3)
             {
-                if (DateTime.Now - AuthUser.LastBadLogin > TimeSpan.FromMinutes(10))
+                if (DateTime.Now - authUser.LastBadLogin > TimeSpan.FromMinutes(10))
                 {
-                    AuthUser.BadLoginAttempts = 0;
-                    AuthUser.Save();
+                    authUser.BadLoginAttempts = 0;
+                    authUser.Save();
                 }
                 else
                 {
-                    JsonMessage.Status = "locked";
-                    await SendJSON(JsonConvert.SerializeObject(JsonMessage));
+                    jsonMessage.Status = "locked";
+                    await SendJSON(JsonConvert.SerializeObject(jsonMessage));
                     return false;
                 }
             }
-            while (AuthUser.AuthenticationTokens.Count > 10)
+            while (authUser.AuthenticationTokens.Count > 10)
             {
-                AuthUser.AuthenticationTokens.RemoveAt(0);
+                authUser.AuthenticationTokens.RemoveAt(0);
             }
-            if ((JsonMessage as ExpandoObject).Any(prop => prop.Key == "Password"))
+            if ((jsonMessage as ExpandoObject).Any(prop => prop.Key == "Password"))
             {
                 var hasher = new PasswordHasher<User>();
-                if (hasher.VerifyHashedPassword(AuthUser, AuthUser.Password ?? "", JsonMessage.Password) == PasswordVerificationResult.Failed)
+                if (hasher.VerifyHashedPassword(authUser, authUser.Password ?? "", jsonMessage.Password) == PasswordVerificationResult.Failed)
                 {
-                    AuthUser.BadLoginAttempts++;
-                    AuthUser.LastBadLogin = DateTime.Now;
-                    AuthUser.Save();
-                    JsonMessage.Status = "invalid";
-                    await SendJSON(JsonMessage);
+                    authUser.BadLoginAttempts++;
+                    authUser.LastBadLogin = DateTime.Now;
+                    authUser.Save();
+                    jsonMessage.Status = "invalid";
+                    await SendJSON(jsonMessage);
                     return false;
                 }
                 else
                 {
-                    AuthUser.AuthenticationTokens.Add(Guid.NewGuid().ToString());
-                    AuthUser.Save();
-                    CurrentUser = AuthUser;
+                    authUser.AuthenticationTokens.Add(Guid.NewGuid().ToString());
+                    authUser.Save();
+                    CurrentUser = authUser;
                     return true;
                 }
             }
-            if (!AuthUser.AuthenticationTokens.Contains((string)JsonMessage.AuthenticationToken))
+            if (!authUser.AuthenticationTokens.Contains((string)jsonMessage.AuthenticationToken))
             {
-                JsonMessage.Status = "expired";
-                await SendJSON(JsonMessage);
+                jsonMessage.Status = "expired";
+                await SendJSON(jsonMessage);
                 return false;
             }
-            AuthUser.AuthenticationTokens.Remove(JsonMessage.AuthenticationToken);
-            AuthUser.AuthenticationTokens.Add(Guid.NewGuid().ToString());
-            AuthUser.Save();
-            CurrentUser = AuthUser;
+            authUser.AuthenticationTokens.Remove(jsonMessage.AuthenticationToken);
+            authUser.AuthenticationTokens.Add(Guid.NewGuid().ToString());
+            authUser.Save();
+            CurrentUser = authUser;
             return true;
         }
         public List<Chat> GetChatList()
@@ -174,9 +174,9 @@ namespace Lettuce_Chat.Classes
             }
             return chatList;
         }
-        public async Task LeaveChat(Chat ChatLeft)
+        public async Task LeaveChat(Chat chatLeft)
         {
-            var sockets = AllSockets.FindAll(sock => sock?.CurrentChat?.ChatID == ChatLeft.ChatID);
+            var sockets = AllSockets.FindAll(sock => sock?.CurrentChat?.ChatID == chatLeft.ChatID);
             var request = new
             {
                 Type = "UserLeft",
@@ -187,9 +187,9 @@ namespace Lettuce_Chat.Classes
                 await socket.SendJSON(request);
             }
         }
-        public async Task JoinChat(Chat ChatJoin)
+        public async Task JoinChat(Chat chatJoin)
         {
-            var sockets = AllSockets.FindAll(sock => sock?.CurrentChat?.ChatID == ChatJoin.ChatID);
+            var sockets = AllSockets.FindAll(sock => sock?.CurrentChat?.ChatID == chatJoin.ChatID);
             var request = new
             {
                 Type = "UserJoined",
@@ -201,13 +201,13 @@ namespace Lettuce_Chat.Classes
             }
             
         }
-        public async Task SendUserListUpdate(Chat ChatUpdate)
+        public async Task SendUserListUpdate(Chat chatUpdate)
         {
-            if (ChatUpdate?.ChatID == null)
+            if (chatUpdate?.ChatID == null)
             {
                 return;
             }
-            var sockets = AllSockets.FindAll(sock => sock?.CurrentChat?.ChatID == ChatUpdate.ChatID);
+            var sockets = AllSockets.FindAll(sock => sock?.CurrentChat?.ChatID == chatUpdate.ChatID);
             var userList = new List<string>();
             foreach (var socket in sockets)
             {
@@ -227,7 +227,7 @@ namespace Lettuce_Chat.Classes
                 await socket.SendJSON(request);
             }
         }
-        public async Task BroadcastMessage(dynamic Message)
+        public async Task BroadcastMessage(dynamic message)
         {
             if (CurrentChat?.ChatID == null)
             {
@@ -241,10 +241,10 @@ namespace Lettuce_Chat.Classes
             }
             foreach (var socket in sockets)
             {
-                await socket.SendJSON(Message);
+                await socket.SendJSON(message);
             }
         }
-        public void SendChatHistory(DateTime Start)
+        public void SendChatHistory(DateTime start)
         {
             var di = Directory.CreateDirectory(Path.Combine(Utilities.RootPath, "Data", "Messages"));
             var strPath = Path.Combine(di.FullName, CurrentChat.ChatID + ".txt");
@@ -252,27 +252,27 @@ namespace Lettuce_Chat.Classes
             var fs = new FileStream(strPath, FileMode.OpenOrCreate);
             var sr = new StreamReader(fs);
             sr.BaseStream.Position = Math.Max(0, fs.Length - 10000);
-            SearchChatHistory(Start, fs, sr, messages, false, sr.BaseStream.Position);
+            SearchChatHistory(start, fs, sr, messages, false, sr.BaseStream.Position);
         }
-        private void SearchChatHistory(DateTime Start, FileStream FS, StreamReader SR, List<Chat_Message> Messages, bool StopAtZero, long StreamPosition)
+        private void SearchChatHistory(DateTime start, FileStream fs, StreamReader sr, List<Chat_Message> messages, bool stopAtZero, long streamPosition)
         {
             var seekDate = DateTime.MaxValue;
             string line = "";
             Chat_Message cm = new Chat_Message();
-            if ((SR.BaseStream.Position > 0 || !StopAtZero) && seekDate > Start)
+            if ((sr.BaseStream.Position > 0 || !stopAtZero) && seekDate > start)
             {
                 try
                 {
                     try
                     {
-                        line = SR.ReadLine();
+                        line = sr.ReadLine();
                         cm = JsonConvert.DeserializeObject<Chat_Message>(line);
                     }
                     catch
                     {
                         // If deserialization fails, stream was positioned in mid-line.
                         // It should now be at the start of the next line, and deserialization should work.
-                        line = SR.ReadLine();
+                        line = sr.ReadLine();
                         if (!String.IsNullOrWhiteSpace(line))
                         {
                             cm = JsonConvert.DeserializeObject<Chat_Message>(line);
@@ -283,48 +283,48 @@ namespace Lettuce_Chat.Classes
                         }
                     }
                     seekDate = cm.TimeStamp;
-                    if (seekDate < Start)
+                    if (seekDate < start)
                     {
-                        Messages.Add(cm);
-                        while (seekDate < Start & !SR.EndOfStream)
+                        messages.Add(cm);
+                        while (seekDate < start & !sr.EndOfStream)
                         {
-                            line = SR.ReadLine();
+                            line = sr.ReadLine();
                             cm = JsonConvert.DeserializeObject<Chat_Message>(line);
                             seekDate = cm.TimeStamp;
-                            Messages.Add(cm);
+                            messages.Add(cm);
                         }
                         var request = new
                         {
                             Type = "GetChatHistory",
-                            Messages = Messages
+                            Messages = messages
                         };
 #pragma warning disable
                         SendJSON(request);
-                        SR.Dispose();
-                        FS.Dispose();
+                        sr.Dispose();
+                        fs.Dispose();
                         return;
 #pragma warning restore
                     }
                 }
                 finally
                 {
-                    if (SR.BaseStream != null)
+                    if (sr.BaseStream != null)
                     {
-                        SR.BaseStream.Position = Math.Max(0, StreamPosition - 10000);
-                        SR.DiscardBufferedData();
-                        SearchChatHistory(Start, FS, SR, Messages, true, SR.BaseStream.Position);
+                        sr.BaseStream.Position = Math.Max(0, streamPosition - 10000);
+                        sr.DiscardBufferedData();
+                        SearchChatHistory(start, fs, sr, messages, true, sr.BaseStream.Position);
                     }
                 }
             }
             else
             {
-                SR.Dispose();
-                FS.Dispose();
+                sr.Dispose();
+                fs.Dispose();
             }
         }
-        public async Task ParseCommand(string Command)
+        public async Task ParseCommand(string commandString)
         {
-            var command = Command.Replace("/", "").ToLower();
+            var command = commandString.Replace("/", "").ToLower();
             if (command.StartsWith("delete-account"))
             {
                 try
@@ -411,15 +411,15 @@ namespace Lettuce_Chat.Classes
                 await SendJSON(request);
             }
         }
-        public async Task ParseMessage(WebSocketReceiveResult Result, byte[] Buffer)
+        public async Task ParseMessage(WebSocketReceiveResult result, byte[] buffer)
         {
-            if (!Result.EndOfMessage)
+            if (!result.EndOfMessage)
             {
                 return;
             }
-            if (Result.MessageType == WebSocketMessageType.Text)
+            if (result.MessageType == WebSocketMessageType.Text)
             {
-                var trimmedString = Encoding.UTF8.GetString(Utilities.TrimBytes(Buffer));
+                var trimmedString = Encoding.UTF8.GetString(Utilities.TrimBytes(buffer));
                 var expando = JsonConvert.DeserializeObject<ExpandoObject>(trimmedString);
                 var jsonMessage = (dynamic)expando;
 
@@ -610,6 +610,24 @@ namespace Lettuce_Chat.Classes
                                 Username = CurrentUser.Username,
                                 DisplayName = CurrentUser.DisplayName,
                                 Message = jsonMessage.Message,
+                                TimeStamp = DateTime.Now
+                            };
+                            File.AppendAllText(strPath, JsonConvert.SerializeObject(cm) + Environment.NewLine);
+                            break;
+                        }
+                    case "FileTransfer":
+                        {
+                            jsonMessage.TimeStamp = DateTime.Now;
+                            jsonMessage.DisplayName = CurrentUser.DisplayName;
+                            jsonMessage.Username = CurrentUser.Username;
+                            await BroadcastMessage(jsonMessage);
+                            var di = Directory.CreateDirectory(Path.Combine(Utilities.RootPath, "Data", "Messages"));
+                            var strPath = Path.Combine(di.FullName, CurrentChat.ChatID + ".txt");
+                            var cm = new Chat_Message()
+                            {
+                                Username = CurrentUser.Username,
+                                DisplayName = CurrentUser.DisplayName,
+                                Message = jsonMessage.URL,
                                 TimeStamp = DateTime.Now
                             };
                             File.AppendAllText(strPath, JsonConvert.SerializeObject(cm) + Environment.NewLine);
@@ -878,11 +896,11 @@ namespace Lettuce_Chat.Classes
                         }
                 }
             }
-            else if (Result.MessageType == WebSocketMessageType.Binary)
+            else if (result.MessageType == WebSocketMessageType.Binary)
             {
 
             }
-            else if (Result.MessageType == WebSocketMessageType.Close)
+            else if (result.MessageType == WebSocketMessageType.Close)
             {
 
             }

@@ -37,11 +37,8 @@ namespace Lettuce_Chat
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -51,7 +48,7 @@ namespace Lettuce_Chat
             {
                 app.UseExceptionHandler("/Default/Error");
             }
-            Utilities.RootPath = System.IO.Path.Combine(env.ContentRootPath, "wwwroot");
+            Utilities.RootPath = env.ContentRootPath;
             app.UseStaticFiles();
             // Needed for Let's Encrypt.
             if (Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), @".well-known")))

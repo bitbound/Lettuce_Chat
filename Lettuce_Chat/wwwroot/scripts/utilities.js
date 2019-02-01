@@ -109,6 +109,12 @@ var Lettuce;
             }, 1500);
         }
         Utilities.ShowTooltip = ShowTooltip;
+        function EncodeForHTML(text) {
+            var tempDiv = document.createElement("div");
+            tempDiv.innerText = text;
+            return tempDiv.innerHTML;
+        }
+        Utilities.EncodeForHTML = EncodeForHTML;
     })(Utilities = Lettuce.Utilities || (Lettuce.Utilities = {}));
 })(Lettuce || (Lettuce = {}));
 //# sourceMappingURL=utilities.js.map

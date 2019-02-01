@@ -103,4 +103,10 @@
             }, Content.length * 20);
         }, 1500)
     }
+
+    export function EncodeForHTML(text: string) {
+        var tempDiv = document.createElement("div");
+        tempDiv.innerText = text;
+        return tempDiv.innerHTML;
+    }
 }

@@ -263,17 +263,31 @@ var Lettuce;
                     if (xhr.status === 200) {
                         document.getElementById("divStatus").innerHTML = "Upload completed.";
                         var fileName = xhr.responseText;
-                        var inputElem = document.getElementById("textInput");
                         var url = location.origin + "/FileTransfer/Download/?file=" + fileName;
-                        inputElem.value = "";
+                        var contentDiv = "";
                         if (fileName.toLowerCase().endsWith(".jpg") || fileName.toLowerCase().endsWith(".png") || fileName.toLowerCase().endsWith(".gif")) {
-                            inputElem.value = '<div style="text-align:center"><img src="' + url + '" style="max-width:50vw" /></div><br/>';
+                            contentDiv = '<div style="text-align:center"><img src="' + url + '" style="max-width:50vw" /></div><br/>';
                         }
                         else if (fileName.toLowerCase().endsWith(".mp4") || fileName.toLowerCase().endsWith(".webm")) {
-                            inputElem.value = '<div style="text-align:center"><video controls="controls" src="' + url + '" style="max-width:50vw" /></div><br/>';
+                            contentDiv = '<div style="text-align:center"><video controls="controls" src="' + url + '" style="max-width:50vw" /></div><br/>';
                         }
-                        inputElem.value += 'File Sharing Link: <a target="_blank" href="' + url + '">' + fileName + '</a>';
-                        SubmitMessage();
+                        contentDiv += 'File Sharing Link: <a target="_blank" href="' + url + '">' + fileName + '</a>';
+                        var sentChat = document.createElement("div");
+                        sentChat.classList.add("sent-chat");
+                        sentChat.innerHTML = '<div class="arrow-right"></div><div class="chat-message-header">You at ' +
+                            new Date().toLocaleString() +
+                            "</div><div class='chat-message-content'>" +
+                            contentDiv + "</div>";
+                        var messageDiv = document.getElementById("divMessages");
+                        messageDiv.appendChild(sentChat);
+                        messageDiv.scrollTop = messageDiv.scrollHeight;
+                        var encoded = btoa(url);
+                        var request = {
+                            "Type": "FileTransfer",
+                            "URL": encoded,
+                            "FileName": fileName
+                        };
+                        Lettuce.Socket.send(JSON.stringify(request));
                     }
                     else {
                         document.getElementById("divStatus").innerHTML = "Upload failed.";
@@ -294,7 +308,7 @@ var Lettuce;
             if (!message.startsWith("/")) {
                 var sentChat = document.createElement("div");
                 sentChat.classList.add("sent-chat");
-                sentChat.innerHTML = '<div class="arrow-right"></div><div class="chat-message-header">You at ' + new Date().toLocaleString() + "</div><div class='chat-message-content'>" + message + "</div>";
+                sentChat.innerHTML = '<div class="arrow-right"></div><div class="chat-message-header">You at ' + new Date().toLocaleString() + "</div><div class='chat-message-content'>" + Lettuce.Utilities.EncodeForHTML(message) + "</div>";
                 var messageDiv = document.getElementById("divMessages");
                 messageDiv.appendChild(sentChat);
                 messageDiv.scrollTop = messageDiv.scrollHeight;
@@ -307,11 +321,11 @@ var Lettuce;
             Lettuce.Socket.send(JSON.stringify(request));
         }
         Default.SubmitMessage = SubmitMessage;
-        function AddMessage(Message) {
+        function AddMessage(message) {
             var messageDiv = document.getElementById("divMessages");
             var shouldScroll = messageDiv.scrollHeight - messageDiv.clientHeight == messageDiv.scrollTop;
             var receivedChat = document.createElement("div");
-            if (Message.Username == Lettuce.Me.Username) {
+            if (message.Username == Lettuce.Me.Username) {
                 receivedChat.classList.add("sent-chat");
                 receivedChat.innerHTML = '<div class="arrow-right"></div>';
             }
@@ -319,11 +333,52 @@ var Lettuce;
                 receivedChat.classList.add("received-chat");
                 receivedChat.innerHTML = '<div class="arrow-left"></div>';
             }
-            receivedChat.innerHTML += '<div class="chat-message-header">' + Message.DisplayName + ' at ' + new Date(Date.parse(Message.TimeStamp)).toLocaleString() + "</div><div class='chat-message-content'>" + atob(Message.Message) + "</div>";
+            var messageText = Lettuce.Utilities.EncodeForHTML(atob(message.Message));
+            receivedChat.innerHTML += '<div class="chat-message-header">' + message.DisplayName + ' at ' + new Date(Date.parse(message.TimeStamp)).toLocaleString() + "</div><div class='chat-message-content'>" + messageText + "</div>";
             messageDiv.appendChild(receivedChat);
             if (shouldScroll) {
                 messageDiv.scrollTop = messageDiv.scrollHeight;
             }
+            NotifyNewMessage();
+        }
+        Default.AddMessage = AddMessage;
+        function AddFileTransfer(message) {
+            var url = atob(message.URL);
+            var fileName = message.FileName;
+            var contentDiv = "";
+            if (fileName.toLowerCase().endsWith(".jpg") || fileName.toLowerCase().endsWith(".png") || fileName.toLowerCase().endsWith(".gif")) {
+                contentDiv = '<div style="text-align:center"><img src="' + url + '" style="max-width:50vw" /></div><br/>';
+            }
+            else if (fileName.toLowerCase().endsWith(".mp4") || fileName.toLowerCase().endsWith(".webm")) {
+                contentDiv = '<div style="text-align:center"><video controls="controls" src="' + url + '" style="max-width:50vw" /></div><br/>';
+            }
+            contentDiv += 'File Sharing Link: <a target="_blank" href="' + url + '">' + fileName + '</a>';
+            var messageDiv = document.getElementById("divMessages");
+            var shouldScroll = messageDiv.scrollHeight - messageDiv.clientHeight == messageDiv.scrollTop;
+            var receivedChat = document.createElement("div");
+            if (message.Username == Lettuce.Me.Username) {
+                receivedChat.classList.add("sent-chat");
+                receivedChat.innerHTML = '<div class="arrow-right"></div>';
+            }
+            else {
+                receivedChat.classList.add("received-chat");
+                receivedChat.innerHTML = '<div class="arrow-left"></div>';
+            }
+            receivedChat.innerHTML += '<div class="chat-message-header">' +
+                message.DisplayName +
+                ' at ' +
+                new Date(Date.parse(message.TimeStamp)).toLocaleString() +
+                "</div><div class='chat-message-content'>" +
+                contentDiv +
+                "</div>";
+            messageDiv.appendChild(receivedChat);
+            if (shouldScroll) {
+                messageDiv.scrollTop = messageDiv.scrollHeight;
+            }
+            NotifyNewMessage();
+        }
+        Default.AddFileTransfer = AddFileTransfer;
+        function NotifyNewMessage() {
             if (!Lettuce.IsFocused) {
                 Lettuce.UnreadMessageCount++;
                 if (Lettuce.UnreadMessageInterval == -1) {
@@ -345,7 +400,7 @@ var Lettuce;
                 }
             }
         }
-        Default.AddMessage = AddMessage;
+        Default.NotifyNewMessage = NotifyNewMessage;
         function InputKeyDown(e) {
             if (e.key.toLowerCase() == "enter" && e.shiftKey == false) {
                 e.preventDefault();
