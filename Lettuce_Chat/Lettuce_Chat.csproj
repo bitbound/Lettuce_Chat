@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>
     <ApplicationIcon>wwwroot\favicon.ico</ApplicationIcon>
     <Authors>Jared Goodwin</Authors>
     <Company>Translucency</Company>
