@@ -1,5 +1,4 @@
-﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -16,7 +15,6 @@
     <environment names="Staging,Production">
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
-    @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 <body>
     @RenderBody()

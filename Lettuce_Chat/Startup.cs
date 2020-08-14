@@ -12,12 +12,13 @@ using System.Net.WebSockets;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
 
 namespace Lettuce_Chat
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -37,16 +38,16 @@ namespace Lettuce_Chat
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
             }
             else
             {
                 app.UseExceptionHandler("/Default/Error");
+                app.UseHttpsRedirection();
             }
             Utilities.RootPath = env.ContentRootPath;
             app.UseStaticFiles();
@@ -86,13 +87,16 @@ namespace Lettuce_Chat
                 }
 
             });
-            app.UseMvc(routes =>
+
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller=Default}/{action=Default}");
+                    pattern: "{controller=Default}/{action=Default}");
+                endpoints.MapRazorPages();
             });
-            
         }
     }
 }

@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -17,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace Lettuce_Chat.Classes
 {
+    // All of this is incredibly bad.  Please disregard it.
+
+
     // Class based on documentation at https://docs.microsoft.com/en-us/aspnet/core/fundamentals/websockets
     public class Socket_Handler
     {
@@ -53,7 +55,7 @@ namespace Lettuce_Chat.Classes
                 }
                 await ws.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
                 if (AllSockets.Contains(this))
                 {
@@ -64,7 +66,7 @@ namespace Lettuce_Chat.Classes
                     await LeaveChat(CurrentChat);
                     await SendUserListUpdate(CurrentChat);
                 }
-                Utilities.WriteToLog(Ex);
+                Utilities.WriteToLog(ex);
             }
         }
         public async Task SendJSON(dynamic json)
@@ -141,13 +143,13 @@ namespace Lettuce_Chat.Classes
                     return true;
                 }
             }
-            if (!authUser.AuthenticationTokens.Contains((string)jsonMessage.AuthenticationToken))
+            if (!authUser.AuthenticationTokens.Contains(jsonMessage.AuthenticationToken.ToString()))
             {
                 jsonMessage.Status = "expired";
                 await SendJSON(jsonMessage);
                 return false;
             }
-            authUser.AuthenticationTokens.Remove(jsonMessage.AuthenticationToken);
+            authUser.AuthenticationTokens.Remove(jsonMessage.AuthenticationToken.ToString());
             authUser.AuthenticationTokens.Add(Guid.NewGuid().ToString());
             authUser.Save();
             CurrentUser = authUser;
@@ -423,7 +425,7 @@ namespace Lettuce_Chat.Classes
                 var expando = JsonConvert.DeserializeObject<ExpandoObject>(trimmedString);
                 var jsonMessage = (dynamic)expando;
 
-                switch ((string)jsonMessage.Type)
+                switch (jsonMessage?.Type)
                 {
                     case "GetGuestChat":
                         {
@@ -448,19 +450,19 @@ namespace Lettuce_Chat.Classes
                             {
                                 Type = "GetGuestChat",
                                 Status = "ok",
-                                User = this.CurrentUser,
-                                Chat = this.CurrentChat
+                                User = CurrentUser,
+                                Chat = CurrentChat
                             };
                             await SendJSON(request);
                             CurrentUser.Save();
                             CurrentChat.Save();
-                            await JoinChat(this.CurrentChat);
-                            await SendUserListUpdate(this.CurrentChat);
+                            await JoinChat(CurrentChat);
+                            await SendUserListUpdate(CurrentChat);
                             break;
                         }
                     case "TryResumeLogin":
                         {
-                            var user = User.Load((string)jsonMessage.Username);
+                            var user = User.Load(jsonMessage.Username);
                             if (await AuthenticateUser(user, jsonMessage) == false)
                             {
                                 return;
@@ -482,7 +484,7 @@ namespace Lettuce_Chat.Classes
                     case "JoinChat":
                         {
                             Chat chat = Chat.Load(jsonMessage.ChatID);
-                            var user = User.Load((string)jsonMessage.Username);
+                            var user = User.Load(jsonMessage.Username);
                             if (chat == null)
                             {
                                 jsonMessage.Status = "not found";
@@ -895,14 +897,6 @@ namespace Lettuce_Chat.Classes
                             break;
                         }
                 }
-            }
-            else if (result.MessageType == WebSocketMessageType.Binary)
-            {
-
-            }
-            else if (result.MessageType == WebSocketMessageType.Close)
-            {
-
             }
         }
     }

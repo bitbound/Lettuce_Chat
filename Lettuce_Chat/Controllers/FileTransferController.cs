@@ -14,8 +14,8 @@ namespace Lettuce_Chat.Controllers
 {
     public class FileTransferController : Controller
     {
-        private IHostingEnvironment Env { get; set; }
-        public FileTransferController(IHostingEnvironment HostEnv)
+        private IWebHostEnvironment Env { get; set; }
+        public FileTransferController(IWebHostEnvironment HostEnv)
         {
             Env = HostEnv;
         }
